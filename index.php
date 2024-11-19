@@ -31,6 +31,7 @@ $banner = array(
 ?>
 
 <body>
+
   <div>
     <div>
       <div class='flex w-[1170px] justify-between mx-auto py-[7px] items-center my-[8px]'>
@@ -96,6 +97,7 @@ $banner = array(
           </div>
         </div>
       </div>
+
     </div>
   </div>
   <script>
