@@ -1,11 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,js,php}", // Add PHP files here to be scanned by Tailwind
+    "./src/**/*.{html,js,php}", // Include files to scan for Tailwind classes
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#db4444',
+      },
+    },
   },
+
   plugins: [],
-  darkMode: 'selector',
+  darkMode: 'class', // Enable dark mode if needed
 };
