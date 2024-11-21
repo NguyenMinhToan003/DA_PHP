@@ -33,14 +33,14 @@ $banner = array(
 
   <div>
     <div>
-      <div class=' bg-black text-white sticky top-0 z-50 shadow-xl'>
+      <div class=' bg-black text-white sticky top-0 z-50 shadow-2xl'>
         <div class='w-[1200px] mx-auto flex justify-between items-center py-2 '>
           <div class=' font-bold text-[24px] w-[271px]'>Exclusive</div>
           <div class='flex gap-5'>
-            <div class='text-[16px] font-medium'><a href='/'>Home</a></div>
-            <div class='text-[16px] font-medium'><a href='/product'>Product</a></div>
-            <div class='text-[16px] font-medium'>About</div>
-            <div class='text-[16px] font-medium'>Sign Up</div>
+            <div class='text-[14px] font-medium'><a href='/'>Home</a></div>
+            <div class='text-[14px] font-medium'><a href='/product'>Product</a></div>
+            <div class='text-[14px] font-medium'>About</div>
+            <div class='text-[14px] font-medium'>Sign Up</div>
           </div>
           <div class='relative w-[300px]'>
             <input placeholder='What are you looking for?'
@@ -52,7 +52,7 @@ $banner = array(
               </svg>
             </div>
           </div>
-          <button class='btn p-3 bg-slate-400 rounded'>
+          <button class='btn p-2 bg-slate-400 rounded'>
             <img src='./icons/search.svg' />
           </button>
         </div>
@@ -73,18 +73,10 @@ $banner = array(
   </div>
 
   </div>
+  <?php
+  include './config/tailwind.php';
+  ?>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#e01020',
-            secondary: '#f2f2f2',
-            more: '#dedede'
-          },
-        },
-      },
-    };
     const dots = document.querySelectorAll('.dot');
     const banner = document.querySelector('.banner');
     let activeDot = dots[0];
