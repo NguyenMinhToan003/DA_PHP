@@ -1,3 +1,7 @@
+ <script src="https://cdn.tailwindcss.com"></script>
+ <?php
+  include './config/tailwind.php';
+  ?>
  <div class='flex w-[1200px] mx-auto'>
    <div class='w-[271px] h-full mt-[40px] mr-[16px] flex flex-col gap-4'>
      <div class='text-[16px] '><a href='#'>Woman’s Fashion</a></div>
