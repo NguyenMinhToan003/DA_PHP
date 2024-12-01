@@ -1,5 +1,10 @@
 <?php
 $indexBanner = $_GET['indexbanner'] ?? 0;
+$Catagory = new Catagory();
+$catagories = $Catagory->all();
+// echo '<pre>';
+// print_r($catagories);
+// echo '</pre>';
 $banner = array(
   array(
     'color' => 'black',
@@ -20,39 +25,18 @@ $banner = array(
 ?>
 <div class='flex w-[1200px] mx-auto'>
 
-  <div class='w-[271px] h-full mt-[40px] mr-[16px] flex flex-col gap-4'>
-    <div class='text-[16px] hover:text-primary transition-colors duration-200'>
-      <a href='#'>Woman’s Fashion</a>
-    </div>
-    <div class='text-[16px] hover:text-primary transition-colors duration-200'>
-      <a href='#'>Man’s Fashion</a>
-    </div>
-    <div class='text-[16px] hover:text-primary transition-colors duration-200'>
-      Electronics
-    </div>
-    <div class='text-[16px] hover:text-primary transition-colors duration-200'>
-      Home & Lifestyle
-    </div>
-    <div class='text-[16px] hover:text-primary transition-colors duration-200'>
-      Medicine
-    </div>
-    <div class='text-[16px] hover:text-primary transition-colors duration-200'>
-      Sports & Outdoor
-    </div>
-    <div class='text-[16px] hover:text-primary transition-colors duration-200'>
-      Baby’s & Toys
-    </div>
-    <div class='text-[16px] hover:text-primary transition-colors duration-200'>
-      Groceries & Pets
-    </div>
-    <div class='text-[16px] hover:text-primary transition-colors duration-200'>
-      Health & Beauty
-    </div>
+  <div class='w-[270px] mt-[40px] flex flex-col gap-4'>
+    <?php foreach ($catagories as $catagory) { ?>
+      <a href='../index.php?page=timkiem&catagory_id=<?= $catagory['catagory_id'] ?>'
+        class='text-[16px] py-3 px-4 border-l-4 border-transparent hover:border-green-500 transition-all'>
+        <?= $catagory['name'] ?>
+      </a>
+    <?php } ?>
   </div>
 
 
-  <div class='h-[388px] w-[1px] bg-[#dedede]'></div>
-
+  <div class=' h-[388px] w-[1px] bg-[#dedede]'>
+  </div>
 
   <div class='mt-[40px] ml-[45px] relative'>
     <div class='w-[892px] h-[344px] bg-gray-500 overflow-hidden rounded-md shadow-lg'>
