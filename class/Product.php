@@ -3,7 +3,7 @@ class Product extends Db
 {
   function all()
   {
-    return $this->selectSQL('select * from products ');
+    return $this->selectSQL('select * from products join images on products.product_id=images.product_id');
   }
   function searchById($id)
   {
@@ -11,10 +11,16 @@ class Product extends Db
      where id=?', [$id]);
   }
 
-  function searchByName($name)
+  function getProducts($key = '', $catagoriesId = 0)
   {
-    $sql = 'SELECT * FROM products WHERE name like ?';
-    $data = $this->selectSQL($sql, ["%$name%"]);
+    $sql = 'SELECT * FROM products WHERE name LIKE ?';
+    $data = [];
+    if ($catagoriesId != 0) {
+      $sql .= ' AND category_id = ?';
+      $data = $this->selectSQL($sql, ["%$key%", $catagoriesId]);
+    } else {
+      $data = $this->selectSQL($sql, ["%$key%"]);
+    }
     foreach ($data as $key => $value) {
       $images = $this->getImages($value['product_id']);
       $data[$key]['images'] = $images;
@@ -40,19 +46,20 @@ class Product extends Db
     $sql = ' SELECT * from colors JOIN product_color
             on colors.color_code=product_color.color_id
             where product_color.product_id=?';
-    return $this->selectSQL($sql, [$id]);
+    $data = $this->selectSQL($sql, [$id]) ?? [];
+    return $data;
   }
   function getSizes($id)
   {
     $sql = ' SELECT * from sizes JOIN product_size
             on sizes.size_code=product_size.size_id
             where product_size.product_id=?';
-    return $this->selectSQL($sql, [$id]);
+    $data = $this->selectSQL($sql, [$id]) ?? [];
+    return $data;
   }
   function detail($id)
   {
     $sql = 'SELECT * FROM products
-            JOIN images ON products.product_id = images.product_id
             WHERE products.product_id = ?';
     $data = $this->selectSQL($sql, [$id]);
     $images = $this->getImages($id);

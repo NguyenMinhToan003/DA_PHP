@@ -9,7 +9,7 @@ if (!$product) {
 include './views/nav.php';
 ?>
 
-<form method='GET' action='../functions//addToCart.php' class='w-[1200px] flex gap-[70px] md:h-[600px] h-auto mx-auto mt-20 md:flex-row flex-col'>
+<form method='POST' action='../functions//cart.php' class='w-[1200px] flex gap-[70px] md:h-[600px] h-auto mx-auto mt-10 md:flex-row flex-col'>
   <div class=' w-full flex gap-[30px]'>
     <div class='w-[170px] h-full gap-4 flex flex-col flex-wrap'>
       <?php for ($i = 1; $i < 4; $i++) { ?>
@@ -35,7 +35,7 @@ include './views/nav.php';
     <div class='flex gap-4 items-center'>
       <span class='text-lg font-semibold'>Colours:</span>
       <?php
-      $defaultColor = $product['colors'][0]['color'];
+      $defaultColor = $product['colors'][0]['color'] ?? '';
       foreach ($product['colors'] as $color) { ?>
         <div>
           <input
@@ -59,7 +59,7 @@ include './views/nav.php';
       <span>Size:</span>
       <?php
 
-      $defaultSize = $product['sizes'][0]['size_code'];
+      $defaultSize = $product['sizes'][0]['size_code'] ?? '';
       foreach ($product['sizes'] as $size) { ?>
         <div>
           <input
@@ -78,7 +78,6 @@ include './views/nav.php';
         </div>
       <?php } ?>
     </div>
-    >
 
 
     <div class='flex gap-2 h-11'>

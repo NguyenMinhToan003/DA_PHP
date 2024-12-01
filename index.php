@@ -2,7 +2,9 @@
 include './config/tailwind.php';
 include './functions/function.php';
 spl_autoload_register('autoLoad');
+session_start();
 $route = isset($_GET['page']) ? $_GET['page'] : 'home';
+
 switch ($route) {
   case 'home':
     include 'pages/home.php';
