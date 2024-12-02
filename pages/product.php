@@ -5,14 +5,16 @@ $product = $lstProduct->detail($id);
 if (!$product) {
   header('location: index.php');
 }
-
+// echo "<pre>";
+// print_r($product);
+// echo "</pre>";
 include './views/nav.php';
 ?>
 
 <form method='POST' action='../functions//cart.php' class='w-[1200px] flex gap-[70px] md:h-[600px] h-auto mx-auto mt-10 md:flex-row flex-col'>
   <div class=' w-full flex gap-[30px]'>
     <div class='w-[170px] h-full gap-4 flex flex-col flex-wrap'>
-      <?php for ($i = 1; $i < 4; $i++) { ?>
+      <?php for ($i = 1; $i < count($product['images']); $i++) { ?>
         <div class='bg-[#f5f5f5] w-[170px] p-4 h-[138px]'>
           <img src='<?php echo $product['images'][$i]['url_image'] ?>' class='w-full h-full object-scale-down' />
         </div>
@@ -23,7 +25,6 @@ include './views/nav.php';
     </div>
   </div>
 
-
   <div class='w-full flex flex-col gap-6' method='post'>
     <p class='font-semibold text-[24px]'><?php echo $product['name']; ?></p>
     <p>
@@ -31,7 +32,6 @@ include './views/nav.php';
     </p>
     <p class='text-primary text-[32px] font-bold'><?php echo number_format($product['price']); ?> đ</p>
     <div class='w-full h-1 bg-gradient-to-r from-red-500 via-gray-400 to-blue-500 my-4'></div>
-
     <div class='flex gap-4 items-center'>
       <span class='text-lg font-semibold'>Colours:</span>
       <?php
@@ -48,7 +48,8 @@ include './views/nav.php';
           <label
             for='<?php echo $color['color']; ?>'
             class='w-8 h-8 rounded-full border-2 border-gray-400 flex justify-center items-center cursor-pointer 
-               peer-checked:border-black peer-checked:ring-2 peer-checked:ring-black transition-all'>
+            transition-all duration-300
+               peer-checked:border-black peer-checked:ring-2 peer-checked:ring-black '>
             <div class='w-full h-full rounded-full bg-<?php echo $color['color']; ?>'></div>
           </label>
         </div>
@@ -72,6 +73,7 @@ include './views/nav.php';
           <label
             for='<?php echo $size['size_code']; ?>'
             class='w-12 h-12 rounded-md border-2 border-gray-400 flex justify-center items-center cursor-pointer
+            transition-all duration-300
                peer-checked:bg-red-500 peer-checked:border-red-500 peer-checked:text-white '>
             <p class='text-black font-semibold text-inherit'><?php echo strtoupper($size['size_code']); ?></p>
           </label>
@@ -81,17 +83,7 @@ include './views/nav.php';
 
 
     <div class='flex gap-2 h-11'>
-      <div class='flex'>
-        <div class='w-10 flex justify-center items-center cursor-pointer rounded-l-md bg-gray-100  border-2 border-black border-r-0 '>
-          <p class='font-bold text-[16px]'>-</p>
-        </div>
-        <div class='w-16 border-2 border-black flex justify-center items-center  border-r-0'>
-          <p name='quatity' value='1' class='font-bold text-[16px]'>1</p>
-        </div>
-        <div class='w-10 flex justify-center items-center cursor-pointer rounded-r-md bg-primary text-white hover:text-black hover:bg-gray-300 transition-all duration-300'>
-          <p class=' font-bold text-[16px]'>+</p>
-        </div>
-      </div>
+
       <input type='hidden' name='product_id' value='<?php echo $product['product_id']; ?>' />
       <input type='hidden' name='price' value='<?php echo $product['price']; ?>' />
       <input type='hidden' name='add_to_cart' value='1' />

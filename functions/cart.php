@@ -8,7 +8,6 @@ if (isset($_POST['add_to_cart'])) {
   $price = $_POST['price'];
   $name = $_POST['name'];
   $url_image = $_POST['url_image'];
-
   $total = $price * $quatity;
   $cart = array(
     'product_id' => $product_id,
@@ -55,4 +54,20 @@ if (isset($_POST['add_to_cart'])) {
   }
   $_SESSION['cart'] = $carts;
   header('location:/index.php?page=giohang');
+} else if (isset($_POST['updateCart'])) {
+  $product_id = $_POST['product_id'];
+  $quatity = $_POST['quatity'];
+  session_start();
+  $carts = $_SESSION['cart'];
+  foreach ($carts as $key => $value) {
+    if ($value['product_id'] == $product_id) {
+      $carts[$key]['quatity'] = $quatity;
+      $carts[$key]['total'] = $quatity * $carts[$key]['price'];
+      break;
+    }
+  }
+  $_SESSION['cart'] = $carts;
+  header('location:/index.php?page=giohang');
+} else {
+  header('location:/index.php');
 }
