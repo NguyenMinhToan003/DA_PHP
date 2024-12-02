@@ -13,11 +13,14 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
         <a href='/index.php'>HOME</a>
       </div>
       <div class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
-        <a>PRODUCT</a>
+        <a>CONTACT</a>
       </div>
       <div class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
         ABOUT
       </div>
+      <a href='../index.php?page=dangky' class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
+        DANG KY
+      </a>
     </div>
 
 
@@ -31,13 +34,31 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
     </div>
 
 
-    <a href='../index.php?page=giohang' class='bg-slate-500 p-2 rounded-full hover:bg-blue-600 transition-all relative'>
-      <img src='./icons/search.svg' class='w-5 h-5' />
-      <?php if (count($cart) > 0) { ?>
-        <div class='absolute -top-2 -right-2 bg-red-500 text-white w-5 h-5 flex justify-center items-center rounded-full'>
-          <?php echo count($cart); ?>
-        </div>
-      <?php } ?>
-    </a>
+    <div class='flex gap-3 justify-center items-center'>
+      <?php
+      if (isset($_SESSION['user'])) {
+      ?>
+        <p class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
+          Chào bạn <?php echo $_SESSION['user']['username']; ?>
+        </p>
+      <?php
+      } else {
+      ?>
+        <a href='../index.php?page=dangnhap' class='bg-slate-500 p-2 rounded-full hover:bg-blue-600 transition-all relative block'>
+          LOGIN
+        </a>
+      <?php
+      }
+      ?>
+
+      <a href='../index.php?page=giohang' class='bg-slate-500 p-2 rounded-full hover:bg-blue-600 transition-all relative block'>
+        <img src='./icons/search.svg' class='w-5 h-5' />
+        <?php if (count($cart) > 0) { ?>
+          <div class='absolute -top-2 -right-2 bg-red-500 text-white w-5 h-5 flex justify-center items-center rounded-full'>
+            <?php echo count($cart); ?>
+          </div>
+        <?php } ?>
+      </a>
+    </div>
   </div>
 </form>

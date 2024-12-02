@@ -9,7 +9,7 @@ $tongtien = 0;
 
 if (count($carts) > 0) {
 ?>
-  <form method='POST' action='../functions/cart.php' class='w-[1200px] mx-auto mt-20 shadow-lg rounded-lg  border border-gray-200 overflow-x-auto'>
+  <div class='w-[1200px] mx-auto mt-20 shadow-lg rounded-lg  border border-gray-200 overflow-x-auto'>
     <table class='table-auto w-full'>
       <thead class='bg-gray-800 text-white '>
         <tr>
@@ -39,16 +39,22 @@ if (count($carts) > 0) {
               <p class='text-red-600 font-semibold'><?php echo number_format($product['price']) ?>đ</p>
             </td>
             <td class='px-5 py-5'>
-              <input type='number' class='w-20 h-10 p-3 border border-gray-300 rounded-md' value='<?php echo $product['quatity'] ?>' />
+              <form method='POST' action='../functions/cart.php'>
+                <input type='hidden' name='updateCart' value='1' />
+                <input type='hidden' name='product_id' value='<?php echo $product['product_id'] ?>' />
+                <input type='number' class='w-20 h-10 p-3 border border-gray-300 rounded-md' value='<?php echo $product['quatity'] ?>' name='quatity' />
+              </form>
             </td>
             <td class='px-5 py-5'>
               <div class='text-red-600 font-semibold'><?php echo number_format($product['total']) ?>đ</div>
+              <form method='POST' action='../functions/cart.php'>
+                <input type='hidden' name='product_id' value='<?php echo $product['product_id'] ?>' />
+                <input type='hidden' name='removeCart' value='1' />
+                <button type='submit' class='absolute top-0 right-0 p-3 bg-slate-400'>
+                  <img src='./images/trash.png' class='w-5 h-5' />
+                </button>
+              </form>
 
-              <input type='hidden' name='product_id' value='<?php echo $product['product_id'] ?>' />
-              <input type='hidden' name='removeCart' value='1' />
-              <button type='submit' class='absolute top-0 right-0 p-3 bg-slate-400'>
-                <img src='./images/trash.png' class='w-5 h-5' />
-              </button>
             </td>
 
           </tr>
@@ -66,7 +72,7 @@ if (count($carts) > 0) {
       <?php }
       ?>
     </div>
-  </form>
+  </div>
 <?php } else {
 ?>
   <div class='w-[1200px] mx-auto mt-20'>
