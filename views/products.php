@@ -3,10 +3,12 @@ $product = new Product();
 $key = $_GET['key'] ?? '';
 $catagory_id = $_GET['catagory_id'] ?? 0;
 $lstProduct = $product->getProducts($key, $catagory_id);
+// $lstProduct = [];
 
 //in mang co can bo cuc
+// $p = $product->all();
 // echo '<pre>';
-// print_r($lstProduct);
+// print_r($p);
 // echo '</pre>';
 
 ?>

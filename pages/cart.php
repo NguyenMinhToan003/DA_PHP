@@ -1,11 +1,22 @@
 <?php
 
 $lstProduct = new Product();
-$lstProduct = $lstProduct->random4();
-include './views/nav.php';
-$carts = $_SESSION['cart'] ?? [];
-$tongtien = 0;
 
+
+$carts = $_SESSION['cart'] ?? [];
+// foreach ($carts as $k => $v) {
+//   $p = $lstProduct->getProductDetail($v['product_id'], $v['color'], $v['size']);
+//   echo $v['product_id'] . ' ' . $v['color'] . ' ' . $v['size'];
+//   echo '<pre>';
+//   print_r($p);
+//   echo '</pre>';
+// }
+$tongtien = 0;
+// echo '<pre>';
+// print_r($carts);
+// echo '</pre>';
+
+include './views/nav.php';
 
 if (count($carts) > 0) {
 ?>
