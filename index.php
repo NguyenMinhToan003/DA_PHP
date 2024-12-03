@@ -27,6 +27,15 @@ switch ($route) {
   case 'them-gio-hang':
     include 'functions/addToCart.php';
     break;
+  case 'qlsanpham':
+    include './admin/qlsanpham.php';
+    break;
+  case 'qlsanpham':
+    include './admin/qltaikhoan.php';
+    break;
+  case 'qlsanpham':
+    include './admin/qlgiohang.php';
+    break;
   default:
     include 'pages/404.php';
     break;

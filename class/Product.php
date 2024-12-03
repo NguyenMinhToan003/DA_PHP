@@ -74,4 +74,5 @@ class Product extends Db
       return [];
     }
   }
+
 }
