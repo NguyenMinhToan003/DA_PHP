@@ -3,14 +3,26 @@ class Product extends Db
 {
   function all()
   {
-    return $this->selectSQL('select * from products join images on products.product_id=images.product_id');
+    $sql = 'SELECT * from products JOIN images
+            on products.product_id=images.product_id';
+    return $this->selectSQL($sql);
   }
   function searchById($id)
   {
-    return $this->selectSQL('select * from products join images on products.product_id=images.product_id
-     where id=?', [$id]);
+    $sql = 'select * from products join images on products.product_id=images.product_id where id=?';
+    return $this->selectSQL($sql, [$id]);
   }
-
+  function getProductDetails($id)
+  {
+    $sql = 'SELECT * from product_detail where product_id=?';
+    return $this->selectSQL($sql, [$id]);
+  }
+  function getProductDetail($product_id, $color_id, $size_id)
+  {
+    $sql = 'SELECT * from product_detail where product_id=? and color_id=? and size_id=?';
+    echo $sql;
+    return $this->selectSQL($sql, [$product_id, $color_id, $size_id]) || [];
+  }
   function getProducts($key = '', $catagoriesId = 0)
   {
     $sql = 'SELECT * FROM products WHERE name LIKE ?';
@@ -37,26 +49,37 @@ class Product extends Db
     }
     return $data;
   }
+
   function getImages($id)
   {
     return $this->selectSQL('select * from images where product_id=?', [$id]);
   }
+
   function getColors($id)
   {
-    $sql = ' SELECT * from colors JOIN product_color
-            on colors.color_code=product_color.color_id
-            where product_color.product_id=?';
+    $sql = 'SELECT * from colors JOIN product_detail
+            on colors.color_id = product_detail.color_id
+            where product_detail.product_id=?';
     $data = $this->selectSQL($sql, [$id]) ?? [];
     return $data;
   }
+
   function getSizes($id)
   {
-    $sql = ' SELECT * from sizes JOIN product_size
-            on sizes.size_code=product_size.size_id
-            where product_size.product_id=?';
+    $sql = 'SELECT * from sizes JOIN product_detail
+            on sizes.size_id=product_detail.size_id
+            where product_detail.product_id=?';
     $data = $this->selectSQL($sql, [$id]) ?? [];
     return $data;
   }
+  // function getColorWithSize($product_id, $size_id)
+  // {
+  //   $sql = 'SELECT * from product_detail
+  //           JOIN colors
+  //           on product_detail.color_id = colors.color_id
+  //           where product_id=? and size_id=?';
+  //   return $this->selectSQL($sql, [$product_id, $size_id]);
+  // }
   function detail($id)
   {
     $sql = 'SELECT * FROM products
@@ -74,5 +97,4 @@ class Product extends Db
       return [];
     }
   }
-
 }

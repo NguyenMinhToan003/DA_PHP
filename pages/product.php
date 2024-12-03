@@ -5,9 +5,17 @@ $product = $lstProduct->detail($id);
 if (!$product) {
   header('location: index.php');
 }
+$pd = $lstProduct->getProductDetails($id);
+foreach ($pd as $v) {
+  echo "<pre>";
+  print_r($v);
+  echo "</pre>";
+}
+// $p = $lstProduct->getProductDetails($id);
 // echo "<pre>";
-// print_r($product);
+// print_r($pd);
 // echo "</pre>";
+
 include './views/nav.php';
 ?>
 
@@ -35,22 +43,22 @@ include './views/nav.php';
     <div class='flex gap-4 items-center'>
       <span class='text-lg font-semibold'>Colours:</span>
       <?php
-      $defaultColor = $product['colors'][0]['color'] ?? '';
+      $defaultColor = $product['colors'][0]['color_code'] ?? '';
       foreach ($product['colors'] as $color) { ?>
         <div>
           <input
             type='radio'
             name='color'
-            value='<?php echo $color['color']; ?>'
-            id='<?php echo $color['color']; ?>'
-            <?php echo $color['color'] === $defaultColor ? 'checked' : ''; ?>
+            value='<?php echo $color['color_id']; ?>'
+            id='<?php echo $color['color_code']; ?>'
+            <?php echo $color['color_code'] === $defaultColor ? 'checked' : ''; ?>
             class='peer hidden' />
           <label
-            for='<?php echo $color['color']; ?>'
+            for='<?php echo $color['color_code']; ?>'
             class='w-8 h-8 rounded-full border-2 border-gray-400 flex justify-center items-center cursor-pointer 
             transition-all duration-300
                peer-checked:border-black peer-checked:ring-2 peer-checked:ring-black '>
-            <div class='w-full h-full rounded-full bg-<?php echo $color['color']; ?>'></div>
+            <div class='w-full h-full  rounded-full bg-<?php echo $color['color_code']; ?>'></div>
           </label>
         </div>
       <?php } ?>
@@ -66,7 +74,7 @@ include './views/nav.php';
           <input
             name='size'
             type='radio'
-            value='<?php echo $size['size_code']; ?>'
+            value='<?php echo $size['size_id']; ?>'
             id='<?php echo $size['size_code']; ?>'
             <?php echo $size['size_code'] === $defaultSize ? 'checked' : ''; ?>
             class='peer hidden' />

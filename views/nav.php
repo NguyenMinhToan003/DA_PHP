@@ -44,7 +44,7 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
       <?php
       } else {
       ?>
-        <a href='../index.php?page=dangnhap' class='bg-slate-500 p-2 rounded-full hover:bg-blue-600 transition-all relative block'>
+        <a href='../index.php?page=dangnhap' class=''>
           LOGIN
         </a>
       <?php
