@@ -4,7 +4,12 @@ $key = $_GET['key'] ?? '';
 $catagory_id = $_GET['catagory_id'] ?? 0;
 $lstProduct = $product->getProducts($key, $catagory_id);
 // $lstProduct = [];
-
+foreach ($lstProduct as $key => $value) {
+  // $p = $product->getProductDetails($value['product_id']);
+  // echo '<pre>';
+  // print_r($p);
+  // echo '</pre>';
+}
 //in mang co can bo cuc
 // $p = $product->all();
 // echo '<pre>';
@@ -20,7 +25,10 @@ $lstProduct = $product->getProducts($key, $catagory_id);
   </div>
 
   <div class='grid grid-cols-4 gap-6'>
-    <?php foreach ($lstProduct as $product) { ?>
+    <?php foreach ($lstProduct as $product) {
+
+    ?>
+
       <article class='group '>
         <a href='../index.php?page=sanpham&id=<?= $product['product_id'] ?>' class='block h-full'>
           <div class='relative bg-gray-100 h-64 p-3'>

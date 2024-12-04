@@ -24,8 +24,8 @@ switch ($route) {
   case 'dangnhap':
     include 'pages/login.php';
     break;
-  case 'them-gio-hang':
-    include 'functions/addToCart.php';
+  case 'addToCart':
+    include './functions/cart.php';
     break;
   case 'qlsanpham':
     include './admin/qlsanpham.php';

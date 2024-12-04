@@ -2,15 +2,13 @@
 
 $lstProduct = new Product();
 
-
 $carts = $_SESSION['cart'] ?? [];
-// foreach ($carts as $k => $v) {
-//   $p = $lstProduct->getProductDetail($v['product_id'], $v['color'], $v['size']);
-//   echo $v['product_id'] . ' ' . $v['color'] . ' ' . $v['size'];
-//   echo '<pre>';
-//   print_r($p);
-//   echo '</pre>';
-// }
+$cartsDetail = [];
+foreach ($carts as $k => $v) {
+
+  $pd = $lstProduct->getProductDetailByIdColorIdSizeId($v['product_id'], $v['color'], $v['size']);
+  $cartsDetail[] = $pd;
+}
 $tongtien = 0;
 // echo '<pre>';
 // print_r($carts);
@@ -18,7 +16,7 @@ $tongtien = 0;
 
 include './views/nav.php';
 
-if (count($carts) > 0) {
+if (count($cartsDetail) > 0) {
 ?>
   <div class='w-[1200px] mx-auto mt-20 shadow-lg rounded-lg  border border-gray-200 overflow-x-auto'>
     <table class='table-auto w-full'>
@@ -32,42 +30,44 @@ if (count($carts) > 0) {
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($carts as $product) {
-          $tongtien += $product['total'];
+        <?php foreach ($cartsDetail as $k => $v) {
+          $tongtien += $v['price'] * $carts[$k]['quatity'];
         ?>
           <tr class='border-b hover:bg-gray-100 relative'>
             <td class='px-5 py-5 text-center '>
-              <a href='../index.php?page=sanpham&id=<?php echo $product['product_id'] ?>'>
-                <img src='<?php echo $product['url_image'] ?>' class='w-24 h-24 object-scale-down rounded-md border border-gray-300' />
+              <a href='../index.php?page=sanpham&id=<?php echo $v['product_id'] ?>'>
+                <img src='<?php echo $v['images'][0]['url_image'] ?>' class='w-24 h-24 object-scale-down rounded-md border border-gray-300' />
               </a>
             </td>
             <td class='px-5 py-5'>
-              <p class='text-[16px] font-bold text-gray-700'><?php echo $product['name'] ?></p>
-              <p class='text-[14px] text-gray-400'>Màu: <?php echo $product['color'] ?></p>
-              <p class='text-[14px] text-gray-400'>Size: <?php echo $product['size'] ?></p>
+              <p class='text-[16px] font-bold text-gray-700'><?php echo $v['name'] ?></p>
+              <p class='text-[14px] text-gray-400'>Màu: <?php echo $v['color_name'] ?></p>
+              <p class='text-[14px] text-gray-400'>Size: <?php echo $v['size_name'] ?></p>
             </td>
             <td class='px-5 py-5'>
-              <p class='text-red-600 font-semibold'><?php echo number_format($product['price']) ?>đ</p>
+              <p class='text-red-600 font-semibold'><?php echo number_format($v['price']) ?>đ</p>
             </td>
             <td class='px-5 py-5'>
               <form method='POST' action='../functions/cart.php'>
                 <input type='hidden' name='updateCart' value='1' />
-                <input type='hidden' name='product_id' value='<?php echo $product['product_id'] ?>' />
-                <input type='number' class='w-20 h-10 p-3 border border-gray-300 rounded-md' value='<?php echo $product['quatity'] ?>' name='quatity' />
+                <input type='hidden' name='color' value='<?php echo $v['color_id'] ?>' />
+                <input type='hidden' name='size' value='<?php echo $v['size_id'] ?>' />
+                <input type='hidden' name='product_id' value='<?php echo $v['product_id'] ?>' />
+                <input type='number' class='w-20 h-10 p-3 border border-gray-300 rounded-md' value='<?php echo $carts[$k]['quatity'] ?>' name='quatity' />
               </form>
             </td>
             <td class='px-5 py-5'>
-              <div class='text-red-600 font-semibold'><?php echo number_format($product['total']) ?>đ</div>
+              <div class='text-red-600 font-semibold'><?php echo number_format($v['price'] * $carts[$k]['quatity']) ?>đ</div>
               <form method='POST' action='../functions/cart.php'>
-                <input type='hidden' name='product_id' value='<?php echo $product['product_id'] ?>' />
+                <input type='hidden' name='product_id' value='<?php echo $v['product_id'] ?>' />
+                <input type='hidden' name='color' value='<?php echo $v['color_id'] ?>' />
+                <input type='hidden' name='size' value='<?php echo $v['size_id'] ?>' />
                 <input type='hidden' name='removeCart' value='1' />
                 <button type='submit' class='absolute top-0 right-0 p-3 bg-slate-400'>
                   <img src='./images/trash.png' class='w-5 h-5' />
                 </button>
               </form>
-
             </td>
-
           </tr>
 
         <?php } ?>
