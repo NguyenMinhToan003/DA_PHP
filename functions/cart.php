@@ -5,19 +5,12 @@ if (isset($_POST['add_to_cart'])) {
   $color = $_POST['color'];
   $size = $_POST['size'];
   $quatity = $_POST['add_to_cart'];
-  $price = $_POST['price'];
-  $name = $_POST['name'];
-  $url_image = $_POST['url_image'];
-  $total = $price * $quatity;
   $cart = array(
     'product_id' => $product_id,
     'color' => $color,
     'name' => $name,
-    'url_image' => $url_image,
-    'size' => $size,
     'quatity' => $quatity,
-    'price' => $price,
-    'total' => $total
+    'size' => $size,
   );
   session_start();
   if (isset($_SESSION['cart'])) {
@@ -44,23 +37,28 @@ if (isset($_POST['add_to_cart'])) {
   header('location:/index.php?page=giohang');
 } else if (isset($_POST['removeCart'])) {
   $product_id = $_POST['product_id'];
+  $size = $_POST['size'];
+  $color = $_POST['color'];
   session_start();
   $carts = $_SESSION['cart'];
+
   foreach ($carts as $key => $value) {
-    if ($value['product_id'] == $product_id) {
+    if ($value['product_id'] == $product_id && $value['color'] == $color && $value['size'] == $size) {
       unset($carts[$key]);
       break;
     }
   }
-  $_SESSION['cart'] = $carts;
+  $_SESSION['cart'] = $carts ? array_values($carts) : [];
   header('location:/index.php?page=giohang');
 } else if (isset($_POST['updateCart'])) {
   $product_id = $_POST['product_id'];
   $quatity = $_POST['quatity'];
+  $size = $_POST['size'];
+  $color = $_POST['color'];
   session_start();
   $carts = $_SESSION['cart'];
   foreach ($carts as $key => $value) {
-    if ($value['product_id'] == $product_id) {
+    if ($value['product_id'] == $product_id && $value['color'] == $color && $value['size'] == $size) {
       $carts[$key]['quatity'] = $quatity;
       $carts[$key]['total'] = $quatity * $carts[$key]['price'];
       break;
