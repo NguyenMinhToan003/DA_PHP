@@ -5,7 +5,7 @@
     theme: {
       extend: {
         colors: {
-          primary: '#e01020',
+          primary: '#db4444',
           secondary: '#f2f2f2',
           more: '#dedede'
         },

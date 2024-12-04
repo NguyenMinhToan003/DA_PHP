@@ -33,76 +33,75 @@ include './views/nav.php';
     </div>
   </div>
 
-  <div class='w-full flex flex-col justify-between '>
-    <div class='w-full flex flex-col gap-6'>
-      <p class='font-semibold text-[24px]'><?php echo $product['product_name']; ?></p>
-      <p><?php echo $product['product_description']; ?></p>
+  <div class='w-full flex flex-col gap-6'>
 
-    </div>
-    <div class='w-full flex flex-col gap-6'>
-      <p class='text-primary text-[32px] font-bold'><?php echo number_format($product['price']); ?> đ</p>
-      <div class='w-full h-1 bg-gradient-to-r from-red-500 via-gray-400 to-blue-500 my-4'></div>
+    <p class='font-semibold text-[24px]'><?php echo $product['product_name']; ?></p>
+    <p><?php echo $product['product_description']; ?></p>
 
-      <?php
-      if ($product['sizes']) { ?>
-        <div class='flex gap-4 items-center'>
-          <span class='text-lg font-semibold'>Sizes:</span>
-          <?php
-          foreach ($product['sizes'] as $size) { ?>
-            <a
-              href='../index.php?page=sanpham&id=<?php echo $productId ?>&size_id=<?php
-                                                                                  echo $size['size_id'] ?>'>
-              <div
-                for='<?php echo $size['size_id']; ?>'
-                class='w-12 h-12 rounded-md border-2 border-gray-400 flex justify-center items-center cursor-pointer
-            transition-all duration-300
+
+    <p class='text-primary text-[32px] font-bold'><?php echo number_format($product['price']); ?> đ</p>
+    <div class='w-full h-1 bg-gradient-to-r from-red-500 via-gray-400 to-blue-500 my-4'></div>
+
+    <?php
+    if ($product['sizes']) { ?>
+      <div class='flex gap-4 items-center'>
+        <span class='text-lg font-semibold'>Sizes:</span>
+        <?php
+        foreach ($product['sizes'] as $size) { ?>
+          <a
+            href='../index.php?page=sanpham&id=<?php echo $productId ?>&size_id=<?php
+                                                                                echo $size['size_id'] ?>'>
+            <div
+              for='<?php echo $size['size_id']; ?>'
+              class='w-[32px] h-[32px] rounded-md border-2 border-gray-400 flex justify-center items-center cursor-pointer text-[12px] p-[6px]
+                transition-all duration-300
              <?php
               if ($size['size_id'] == $sizeId) {
                 echo 'bg-red-500 border-red-500 text-white';
               }
               ?>
            '>
-                <p class=' text-black font-semibold text-inherit'><?php echo strtoupper($size['size_code']); ?></p>
-              </div>
-            </a>
-          <?php } ?>
-        </div>
-      <?php } ?>
-
-      <?php
-      if ($product['colors']) { ?>
-        <div class='flex gap-4 items-center'>
-          <span class='text-lg font-semibold'>Colours:</span>
-          <?php
-          $defaultColor = $product['colors'][0]['color_id'] ?? 0;
-          foreach ($product['colors'] as $color) {
-          ?>
-            <div>
-              <input
-                type='radio'
-                name='color'
-                <?php echo $color['color_id'] === $defaultColor ? 'checked' : '' ?>
-                value='<?php echo $color['color_id']; ?>'
-                id='<?php echo $color['color_code']; ?>'
-                class='peer hidden' />
-              <label
-                for='<?php echo $color['color_code']; ?>'
-                class='w-8 h-8 rounded-full border-2 border-gray-400 flex justify-center items-center cursor-pointer 
-                        transition-all duration-300 peer-checked:border-black peer-checked:ring-2 peer-checked:ring-black'>
-                <div class='w-full h-full rounded-full bg-<?php echo $color['color_code']; ?>'></div>
-              </label>
+              <p class=' text-black font-semibold text-inherit'><?php echo strtoupper($size['size_code']); ?></p>
             </div>
-          <?php } ?>
-        </div>
-      <?php } ?>
-      <div class='flex gap-6 h-11'>
-        <input type='hidden' name='product_id' value='<?php echo $product['product_id']; ?>' />
-        <input type='hidden' name='size' value='<?php echo $sizeId ?>' />
-        <button type='submit' name='add_to_cart' value='1' class='btn w-full bg-gradient-to-r from-red-500 via-primary to-orange-700 text-white p-3 rounded-md'>
-          Add to cart
-        </button>
+          </a>
+        <?php } ?>
       </div>
+    <?php } ?>
+
+    <?php
+    if ($product['colors']) { ?>
+      <div class='flex gap-4 items-center'>
+        <span class='text-lg font-semibold'>Colours:</span>
+        <?php
+        $defaultColor = $product['colors'][0]['color_id'] ?? 0;
+        foreach ($product['colors'] as $color) {
+        ?>
+          <div>
+            <input
+              type='radio'
+              name='color'
+              <?php echo $color['color_id'] === $defaultColor ? 'checked' : '' ?>
+              value='<?php echo $color['color_id']; ?>'
+              id='<?php echo $color['color_code']; ?>'
+              class='peer hidden' />
+            <label
+              for='<?php echo $color['color_code']; ?>'
+              class='w-[24px] h-[24px] rounded-full flex justify-center items-center cursor-pointer p-1
+                        transition-all duration-300 peer-checked:border-black peer-checked:ring-black peer-checked:ring-2'>
+              <div class='w-[16px] h-[16px] rounded-full bg-<?php echo $color['color_code']; ?>'></div>
+            </label>
+          </div>
+        <?php } ?>
+      </div>
+    <?php } ?>
+    <div class='flex gap-6 h-11'>
+      <input type='hidden' name='product_id' value='<?php echo $product['product_id']; ?>' />
+      <input type='hidden' name='size' value='<?php echo $sizeId ?>' />
+      <button type='submit' name='add_to_cart' value='1' class='btn w-full bg-gradient-to-r from-red-500 via-primary to-orange-700 text-white p-3 rounded-sm font-semibold'>
+        Add to cart
+      </button>
     </div>
+
 
   </div>
 </form>
