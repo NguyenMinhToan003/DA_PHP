@@ -30,7 +30,7 @@ if (isset($_POST['login'])) {
   }
 }
 ?>
-<div class='bg-[#232b38] flex justify-center items-center h-full'>
+<div class='bg-gradient-to-r from-blue-50 via-blue-100 flex justify-center items-center h-full'>
   <form method='POST' class='w-[500px]  mt-20 p-10 bg-white  rounded-md shadow-lg'>
     <input type='hidden' name='page' value='dangnhap' />
     <input type='hidden' name='login' value='1' />
