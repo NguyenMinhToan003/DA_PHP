@@ -3,12 +3,11 @@
 $lstProduct = new Product();
 
 $carts = $_SESSION['cart'] ?? [];
-$cartsDetail = [];
-foreach ($carts as $k => $v) {
-
-  $pd = $lstProduct->getProductDetailByIdColorIdSizeId($v['product_id'], $v['color'], $v['size']);
-  $cartsDetail[] = $pd;
-}
+$cartsDetail = $carts;
+// foreach ($carts as $k => $v) {
+//   $pd = $lstProduct->getProductDetailById($v['product_detail_id']);
+//   $cartsDetail[] = $pd;
+// }
 $tongtien = 0;
 // echo '<pre>';
 // print_r($carts);
@@ -18,72 +17,75 @@ include './views/nav.php';
 
 if (count($cartsDetail) > 0) {
 ?>
-  <div class='w-[1200px] mx-auto mt-20 shadow-lg rounded-lg  border border-gray-200 overflow-x-auto'>
-    <table class='table-auto w-full'>
-      <thead class='bg-gray-800 text-white '>
-        <tr>
-          <th class='px-5 py-4 text-left'>Hình ảnh</th>
-          <th class='px-5 py-4 text-left'>Tên sản phẩm</th>
-          <th class='px-5 py-4 text-left'>Giá sản phẩm</th>
-          <th class='px-5 py-4 text-left'>Số lượng</th>
-          <th class='px-5 py-4 text-left'>Thành tiền</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($cartsDetail as $k => $v) {
-          $tongtien += $v['price'] * $carts[$k]['quatity'];
-        ?>
-          <tr class='border-b hover:bg-gray-100 relative'>
-            <td class='px-5 py-5 text-center '>
-              <a href='../index.php?page=sanpham&id=<?php echo $v['product_id'] ?>'>
-                <img src='<?php echo $v['images'][0]['url_image'] ?>' class='w-24 h-24 object-scale-down rounded-md border border-gray-300' />
-              </a>
-            </td>
-            <td class='px-5 py-5'>
-              <p class='text-[16px] font-bold text-gray-700'><?php echo $v['name'] ?></p>
-              <p class='text-[14px] text-gray-400'>Màu: <?php echo $v['color_name'] ?></p>
-              <p class='text-[14px] text-gray-400'>Size: <?php echo $v['size_name'] ?></p>
-            </td>
-            <td class='px-5 py-5'>
-              <p class='text-red-600 font-semibold'><?php echo number_format($v['price']) ?>đ</p>
-            </td>
-            <td class='px-5 py-5'>
-              <form method='POST' action='../functions/cart.php'>
-                <input type='hidden' name='updateCart' value='1' />
-                <input type='hidden' name='color' value='<?php echo $v['color_id'] ?>' />
-                <input type='hidden' name='size' value='<?php echo $v['size_id'] ?>' />
-                <input type='hidden' name='product_id' value='<?php echo $v['product_id'] ?>' />
-                <input type='number' class='w-20 h-10 p-3 border border-gray-300 rounded-md' value='<?php echo $carts[$k]['quatity'] ?>' name='quatity' />
-              </form>
-            </td>
-            <td class='px-5 py-5'>
-              <div class='text-red-600 font-semibold'><?php echo number_format($v['price'] * $carts[$k]['quatity']) ?>đ</div>
-              <form method='POST' action='../functions/cart.php'>
-                <input type='hidden' name='product_id' value='<?php echo $v['product_id'] ?>' />
-                <input type='hidden' name='color' value='<?php echo $v['color_id'] ?>' />
-                <input type='hidden' name='size' value='<?php echo $v['size_id'] ?>' />
-                <input type='hidden' name='removeCart' value='1' />
-                <button type='submit' class='absolute top-0 right-0 p-3 bg-slate-400'>
-                  <img src='./images/trash.png' class='w-5 h-5' />
-                </button>
-              </form>
-            </td>
-          </tr>
+  <div class=" container mx-auto mt-20 shadow-lg rounded-lg border border-gray-200 p-4">
+    <?php if (count($cartsDetail) > 0) { ?>
+      <div class="overflow-x-auto">
+        <table class="table-auto w-full text-left">
+          <thead class="bg-gray-800 text-white">
+            <tr>
+              <th class="px-5 py-4">Hình ảnh</th>
+              <th class="px-5 py-4">Tên sản phẩm</th>
+              <th class="px-5 py-4">Giá sản phẩm</th>
+              <th class="px-5 py-4">Số lượng</th>
+              <th class="px-5 py-4">Thành tiền</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <?php
+            foreach ($cartsDetail as $k => $v) {
+              $tongtien += $v['price'] * $carts[$k]['quatity'];
+            ?>
+              <tr class="hover:bg-gray-50">
+                <td class="px-5 py-4">
+                  <a href="../index.php?page=sanpham&id=<?php echo $v['product_id'] ?>">
+                    <img src="<?php echo $v['url_image'] ?>" class="w-16 h-16 object-scale-down rounded-md border" alt="Sản phẩm" />
+                  </a>
+                </td>
+                <td class="px-5 py-4">
+                  <p class="font-semibold text-gray-700"><?php echo $v['name'] ?></p>
+                  <p class="text-sm text-gray-500">Màu: <?php echo $v['color_name'] ?></p>
+                  <p class="text-sm text-gray-500">Size: <?php echo $v['size_name'] ?></p>
+                </td>
+                <td class="px-5 py-4">
+                  <p class="text-red-600 font-bold"><?php echo number_format($v['price']) ?> đ</p>
+                </td>
+                <td class="px-5 py-4">
+                  <form method="POST" action="../functions/cart.php">
+                    <input type="hidden" name="updateCart" value="1">
+                    <input type="hidden" name="product_detail_id" value="<?php echo $v['product_detail_id'] ?>">
+                    <input type="number" name="quatity" value="<?php echo $carts[$k]['quatity'] ?>" min="1" class="w-16 border rounded-md p-1 text-center">
+                  </form>
+                </td>
+                <td class="px-5 py-4">
+                  <p class="text-red-600 font-bold"><?php echo number_format($v['price'] * $carts[$k]['quatity']) ?> đ</p>
+                  <form method="POST" action="../functions/cart.php">
+                    <input type="hidden" name="product_detail_id" value="<?php echo $v['product_detail_id'] ?>">
+                    <input type="hidden" name="removeCart" value="1">
+                    <button type="submit" class="p-2 bg-gray-200 rounded hover:bg-gray-300">
+                      <img src="./images/trash.png" alt="Remove" class="w-4 h-4">
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
 
-        <?php } ?>
-      </tbody>
-    </table>
-
-    <div class='flex justify-end items-center gap-5 p-5'>
-      <?php
-      if (count($carts) > 0) {
-      ?>
-        <p class='text-[16px] font-bold'>Tổng tiền: <?php echo number_format($tongtien) ?> đ</p>
-        <a href='../index.php' class=' btn bg-red-600 text-white p-3 rounded-md'>Thanh toán</a>
-      <?php }
-      ?>
-    </div>
+      <!-- Total Price Section -->
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6">
+        <p class="text-lg font-bold">Tổng tiền: <span class="text-red-600"><?php echo number_format($tongtien) ?> đ</span></p>
+        <a href="../index.php?page=xacnhan-muahang" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">Mua hàng</a>
+      </div>
+    <?php } else { ?>
+      <!-- Empty Cart -->
+      <div class="text-center py-10">
+        <p class="text-xl font-bold text-gray-700">Giỏ hàng trống</p>
+        <a href="../index.php" class="bg-blue-600 text-white py-2 px-4 rounded mt-4 inline-block hover:bg-blue-700">Tiếp tục mua hàng</a>
+      </div>
+    <?php } ?>
   </div>
+
 <?php } else {
 ?>
   <div class='w-[1200px] mx-auto mt-20'>

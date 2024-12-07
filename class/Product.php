@@ -1,12 +1,7 @@
 <?php
 class Product extends Db
 {
-  function all()
-  {
-    $sql = 'SELECT * from products JOIN images
-            on products.product_id=images.product_id';
-    return $this->selectSQL($sql);
-  }
+
   function searchById($id)
   {
     $sql = 'select * from products join images on products.product_id=images.product_id where id=?';
@@ -49,7 +44,7 @@ class Product extends Db
 
   function getSizes($id)
   {
-    $sql = 'SELECT 
+    $sql = 'SELECT DISTINCT
                 s.size_id,
                 s.size_code,
                 s.size_name
@@ -62,10 +57,9 @@ class Product extends Db
     return $this->selectSQL($sql, [$id]);
   }
 
-
   function getColors($id)
   {
-    $sql = 'SELECT 
+    $sql = 'SELECT DISTINCT
                 c.color_id,
                 c.color_code,
                 c.color_name
@@ -80,7 +74,7 @@ class Product extends Db
 
   function getColorsBySize($id, $size_id)
   {
-    $sql = 'SELECT 
+    $sql = 'SELECT DISTINCT
                 c.color_id,
                 c.color_code,
                 c.color_name
@@ -90,7 +84,6 @@ class Product extends Db
                 product_detail pd ON pd.color_id = c.color_id
             WHERE 
                 pd.product_id = ? AND pd.size_id = ?';
-
     return $this->selectSQL($sql, [$id, $size_id]);
   }
 
@@ -107,16 +100,35 @@ class Product extends Db
                 p.product_id = ?';
     return $this->selectSQL($sql, [$id]);
   }
-
+  function getProductDetailById($id)
+  {
+    $sql = 'SELECT 
+               *
+            FROM 
+                product_detail p
+            WHERE 
+                p.product_detail_id = ?';
+    $product_detail = $this->selectSQL($sql, [$id]);
+    $product = $this->getProduct($product_detail[0]['product_id']);
+    $sizes = $this->getSizes($product_detail[0]['product_id']);
+    $colors = $this->getColors($product_detail[0]['product_id']);
+    $images = $this->getImages($product_detail[0]['product_id']);
+    return [
+      'product_id' => $product[0]['product_id'],
+      'product_name' => $product[0]['product_name'],
+      'product_description' => $product[0]['product_description'],
+      'images' => $images,
+      'price' => $product[0]['price'],
+      'colors' => $colors,
+      'sizes' => $sizes
+    ];
+  }
   function getProductDetails($id, $size_id)
   {
-
     $product = $this->getProduct($id);
-
     $sizes = $this->getSizes($id);
     $colors = $this->getColorsBySize($id, $size_id);
     $images = $this->getImages($id);
-
     return [
       'product_id' => $product[0]['product_id'],
       'product_name' => $product[0]['product_name'],

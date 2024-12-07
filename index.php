@@ -36,6 +36,12 @@ switch ($route) {
   case 'qlsanpham':
     include './admin/qlgiohang.php';
     break;
+  case 'xacnhan-muahang':
+    include './pages/order_confirm.php';
+    break;
+  case 'dathang-thanhcong':
+    include './pages/order_success.php';
+    break;
   default:
     include 'pages/404.php';
     break;
