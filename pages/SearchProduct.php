@@ -5,7 +5,8 @@ $catagories = $Catagory->all();
 $Product = new Product();
 $key = isset($_GET['key']) ? $_GET['key'] : '';
 $catagory_id = isset($_GET['catagory_id']) ? $_GET['catagory_id'] : 0;
-$lstProduct = $Product->getProducts($key, $catagory_id);
+$lstProduct = $Product->getProductsByKeyAndCata($key, $catagory_id);
+
 include './views/nav.php';
 
 ?>
@@ -48,7 +49,7 @@ include './views/nav.php';
               </div>
             </div>
             <div class='p-4'>
-              <h3 class='text-lg font-bold text-gray-800 group-hover:text-green-500'><?= $product['name'] ?></h3>
+              <h3 class='text-lg font-bold text-gray-800 group-hover:text-green-500'><?= $product['product_name'] ?></h3>
               <p class='text-red-600 text-xl font-semibold'><?= number_format($product['price']) ?>đ</p>
             </div>
           </a>
