@@ -4,6 +4,16 @@ include './functions/function.php';
 spl_autoload_register('autoLoad');
 session_start();
 $route = isset($_GET['page']) ? $_GET['page'] : 'home';
+function checkUser()
+{
+  if (!isset($_SESSION['user'])) {
+    header('Location: index.php?page=dangnhap');
+    exit();
+  } else if ($_SESSION['user']['role_id'] !== 1) {
+    header('Location: index.php');
+    exit();
+  }
+}
 
 switch ($route) {
   case 'home':
@@ -28,13 +38,16 @@ switch ($route) {
     include './functions/cart.php';
     break;
   case 'qlsanpham':
+    checkUser();
     include './admin/qlsanpham.php';
     break;
-  case 'qlsanpham':
-    include './admin/qltaikhoan.php';
+  case 'themsanpham':
+    checkUser();
+    include './admin/themsanpham.php';
     break;
-  case 'qlsanpham':
-    include './admin/qlgiohang.php';
+  case 'xoasanpham':
+    checkUser();
+    include './functions/xoasanpham.php';
     break;
   case 'xacnhan-muahang':
     include './pages/order_confirm.php';
@@ -42,7 +55,11 @@ switch ($route) {
   case 'dathang-thanhcong':
     include './pages/order_success.php';
     break;
+  case 'suasanpham':
+    checkUser();
+    include './admin/suasanpham.php';
+    break;
   default:
-    include 'pages/404.php';
+    include './pages/404.php';
     break;
 }

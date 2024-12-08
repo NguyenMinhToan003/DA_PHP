@@ -18,9 +18,21 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
       <div class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
         ABOUT
       </div>
-      <a href='../index.php?page=dangky' class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
-        DANG KY
-      </a>
+      <?php
+      if (!isset($_SESSION['user'])) {
+      ?>
+        <a href='../index.php?page=dangky' class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
+          DANG KY
+        </a>
+      <?php
+      } else {
+      ?>
+        <a href='../index.php?page=qlsanpham' class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
+          QUAN LY SAN PHAM
+        </a>
+      <?php
+      }
+      ?>
     </div>
 
 
@@ -38,9 +50,9 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
       <?php
       if (isset($_SESSION['user'])) {
       ?>
-        <p class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
+        <a href='../functions/logout.php' class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
           Chào bạn <?php echo $_SESSION['user']['username']; ?>
-        </p>
+        </a>
       <?php
       } else {
       ?>

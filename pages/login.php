@@ -19,7 +19,12 @@ if (isset($_POST['login'])) {
         </div>  
         ";
       $_SESSION['user'] = $login[0];
-      header('location:/index.php');
+
+      if ($_SESSION['user']['role_id'] === 1) {
+        header('location: ../index.php?page=qlsanpham');
+      } else {
+        header('location:/index.php');
+      }
     } else {
       $message = "
         <div class='p-3 bg-red-100 mb-2'>

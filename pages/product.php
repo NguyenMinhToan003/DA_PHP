@@ -3,11 +3,11 @@ $productId = $_GET['id'] ?? 0;
 $sizeId = $_GET['size_id'] ?? 0;
 
 $lstProduct = new Product();
-$product = $lstProduct->getProductDetails($productId, $sizeId);
+$product = $lstProduct->getProductUser($productId, $sizeId);
 
 if ($sizeId == 0) {
   $sizeId = $product['sizes'][0]['size_id'] ?? 0;
-  $product = $lstProduct->getProductDetails($productId, $sizeId);
+  $product = $lstProduct->getProductUser($productId, $sizeId);
 }
 $lstProduct = $lstProduct->random4($productId);
 
@@ -33,7 +33,7 @@ include './views/nav.php';
 
     <!-- Main Product Image -->
     <div class=' bg-gray-100 p-2 flex justify-center items-center rounded-md  w-[600px] h-[600px]'>
-      <img src='<?php echo $product['images'][0]['url_image']; ?>' alt='Main Product Image' class='w-full h-full  object-scale-down' />
+      <img src='<?php echo $product['images'][0]['url_image'] ?? ''; ?>' alt='Main Product Image' class='w-full h-full  object-scale-down' />
     </div>
   </div>
 
@@ -98,7 +98,7 @@ include './views/nav.php';
   <div class='grid grid-cols-2 md:grid-cols-4 gap-4'>
     <?php foreach ($lstProduct as $relatedProduct) { ?>
       <a href='../index.php?page=sanpham&id=<?php echo $relatedProduct['product_id']; ?>' class='bg-gray-100 rounded-lg p-4 shadow-md hover:shadow-lg transition'>
-        <img src='<?php echo $relatedProduct['images'][0]['url_image']; ?>' alt='Product Image' class='w-full h-40 object-scale-down mb-4' />
+        <img src='<?php echo $relatedProduct['images'][0]['url_image'] ?? ''; ?>' alt='Product Image' class='w-full h-40 object-scale-down mb-4' />
         <h3 class='font-semibold text-lg'><?php echo $relatedProduct['name']; ?></h3>
         <p class='text-red-500 font-bold'><?php
                                           echo number_format($relatedProduct['price']);

@@ -4,7 +4,9 @@ class User extends Db
 {
   function login($email, $password)
   {
-    $sql = 'SELECT * FROM users WHERE email=? AND password=?';
+    $sql = 'SELECT * FROM users
+    JOIN role ON users.role_id = role.role_id
+     WHERE email=? AND password=?';
     $data = $this->selectSQL($sql, [$email, $password]);
     return $data;
   }
