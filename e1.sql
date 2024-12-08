@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 04, 2024 at 05:57 AM
+-- Generation Time: Dec 08, 2024 at 02:06 PM
 -- Server version: 8.3.0
 -- PHP Version: 8.2.18
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `e1`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `brands`
+--
+
+DROP TABLE IF EXISTS `brands`;
+CREATE TABLE IF NOT EXISTS `brands` (
+  `brand_id` int NOT NULL,
+  `brand_name` varchar(20) NOT NULL,
+  `url_image` int NOT NULL,
+  PRIMARY KEY (`brand_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `brands`
+--
+
+INSERT INTO `brands` (`brand_id`, `brand_name`, `url_image`) VALUES
+(1, 'Không có', 0);
 
 -- --------------------------------------------------------
 
@@ -86,21 +107,32 @@ CREATE TABLE IF NOT EXISTS `images` (
   `product_id` int NOT NULL,
   PRIMARY KEY (`image_id`),
   KEY `product_id` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `images`
 --
 
 INSERT INTO `images` (`image_id`, `url_image`, `product_id`) VALUES
-(3, '/images/product1.png', 18),
-(4, '/images/product2.png', 18),
-(5, '/images/product3.png', 18),
-(6, '/images/product4.png', 18),
-(7, './images/product2.png', 17),
-(8, './images/product3.png', 15),
-(9, './images/product3.png', 16),
-(10, './images/product6.png', 15);
+(12, './uploads/022f2f4b1ed0c1235d3968064f236712.png', 53),
+(13, './uploads/6bbbcc8dd4a50876f797e8f2726fa84a.png', 54),
+(14, './uploads/f10120d2c50f9458e775b633c226bfda.png', 55),
+(15, './uploads/029903997e70dac236762f20af665a2e.png', 56),
+(16, './uploads/e5ee240ec7b94d1dcb4bc7d05bf75202.png', 56),
+(17, './uploads/6be6160643db95e62e2b054e26fa33ea.png', 56),
+(18, './uploads/425fc9f43864cce8bd5d9bce609a9545.png', 56),
+(19, './uploads/3bc7b979f3b3a2154049218f2b0d6dbd.png', 56),
+(20, './uploads/c329070bd1213b54e7bcb2179c6ae60a.png', 57),
+(21, './uploads/c6e8d40b73347d2a38aa771cd13e55e6.png', 57),
+(22, './uploads/6837faaffa8faaa554d101301445ba45.png', 57),
+(23, './uploads/e3984669d92eed0f2febdfcf848a258d.png', 57),
+(24, './uploads/34ab5c3eb93c19082a01964faa8d60d6.png', 57),
+(25, './uploads/87a2f5d21b8950e28e535511e0cf22f4.png', 57),
+(26, './uploads/972e3344dd6743286955fb29a8d6db58.png', 58),
+(27, './uploads/9e2b6235cd393dd26c0ed8f884b21541.png', 58),
+(28, './uploads/a58110fa7f0aa4ec2552cf491937d8f9.png', 58),
+(29, './uploads/0e91707931498e9f834d9b052fc038d5.png', 58),
+(30, './uploads/316700979579a9db421f7c4cd8b7fd14.png', 58);
 
 -- --------------------------------------------------------
 
@@ -113,7 +145,17 @@ CREATE TABLE IF NOT EXISTS `order` (
   `order_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `order_date` datetime NOT NULL,
-  `cast` float NOT NULL,
+  `address` text NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `order_code` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `adress` varchar(255) NOT NULL,
+  `tel` varchar(11) NOT NULL,
+  `note` text NOT NULL,
+  `shipping_date` datetime NOT NULL,
+  `delive_date` datetime NOT NULL,
+  `amount` float NOT NULL,
+  `status` int NOT NULL,
   PRIMARY KEY (`order_id`),
   KEY `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -130,6 +172,9 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   `order_id` int NOT NULL,
   `product_detail_id` int NOT NULL,
   `quantity` int NOT NULL,
+  `product_name` varchar(50) NOT NULL,
+  `total_price` float NOT NULL,
+  `url_image` varchar(255) NOT NULL,
   PRIMARY KEY (`detail_id`),
   KEY `order` (`order_id`),
   KEY `product_detail_id` (`product_detail_id`)
@@ -146,24 +191,25 @@ CREATE TABLE IF NOT EXISTS `products` (
   `product_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `description` text,
-  `price` decimal(10,2) NOT NULL,
   `category_id` int NOT NULL,
-  `stock` int DEFAULT '0',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `brand_id` int NOT NULL,
+  `price` float NOT NULL,
   PRIMARY KEY (`product_id`),
-  KEY `category_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `category_id` (`category_id`),
+  KEY `brand_id` (`brand_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `name`, `description`, `price`, `category_id`, `stock`, `created_at`, `updated_at`) VALUES
-(15, 'RGB liquid CPU Cooler', 'PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for easy bubble free install & mess free removal Pressure sensitive.', 100000.00, 23, 0, '2024-12-03 13:26:39', '2024-12-03 13:26:39'),
-(16, 'RGB liquid CPU Cooler', 'PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for easy bubble free install & mess free removal Pressure sensitive.', 120000.00, 25, 0, '2024-12-03 13:26:39', '2024-12-03 13:26:39'),
-(17, 'Quilted Satin Jacket', 'PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for easy bubble free install & mess free removal Pressure sensitive.', 100000.00, 23, 0, '2024-12-03 13:27:28', '2024-12-03 13:27:28'),
-(18, 'Gucci duffle bag', 'PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for easy bubble free install & mess free removal Pressure sensitive.', 120000.00, 25, 0, '2024-12-03 13:27:28', '2024-12-03 13:27:28');
+INSERT INTO `products` (`product_id`, `name`, `description`, `category_id`, `brand_id`, `price`) VALUES
+(53, 'Sách obn lkdawdawdawda', 'dawdwawadadaw', 22, 1, 0),
+(54, 'Sách obn lkdawdawdawda', 'dawdawdawdawdawdawdawdawdawadawdawdad', 24, 1, 0),
+(55, 'Sách obn lkdawdawdawda', 'dwadawdd', 22, 1, 0),
+(56, 'Sách obn lkdawdawdawda', 'dwadwadaw', 22, 1, 0),
+(57, 'Sách obn lkdawdawdawdadaw', 'dwadawdadawdawadw', 22, 1, 0),
+(58, 'Sách obn lkdawdawdawdadaw', 'dwadawdawdawd', 22, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -178,24 +224,27 @@ CREATE TABLE IF NOT EXISTS `product_detail` (
   `size_id` int NOT NULL,
   `color_id` int NOT NULL,
   `count` int NOT NULL,
+  `price` float NOT NULL,
+  `quantity` int NOT NULL,
   PRIMARY KEY (`product_detail_id`),
   KEY `product_id` (`product_id`),
   KEY `size_id` (`size_id`),
   KEY `color_id` (`color_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `product_detail`
 --
 
-INSERT INTO `product_detail` (`product_detail_id`, `product_id`, `size_id`, `color_id`, `count`) VALUES
-(1, 18, 7, 3, 10),
-(2, 18, 5, 2, 0),
-(3, 18, 7, 1, 10),
-(5, 15, 7, 4, 0),
-(6, 16, 7, 5, 0),
-(7, 17, 6, 2, 0),
-(8, 17, 5, 1, 0);
+INSERT INTO `product_detail` (`product_detail_id`, `product_id`, `size_id`, `color_id`, `count`, `price`, `quantity`) VALUES
+(55, 53, 6, 1, 0, 123, 123),
+(56, 54, 5, 2, 0, 123, 123),
+(57, 54, 6, 5, 0, 12312, 1233),
+(58, 55, 5, 5, 0, 232211, 123),
+(59, 56, 6, 1, 0, 232211, 123),
+(60, 56, 6, 3, 0, 3323, 23223),
+(61, 57, 7, 2, 0, 232211, 123),
+(62, 58, 6, 2, 0, 232211, 123);
 
 -- --------------------------------------------------------
 
@@ -257,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `address` text NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
@@ -267,7 +316,10 @@ INSERT INTO `users` (`user_id`, `email`, `username`, `password`, `role_id`, `add
 (7, '1@gmail.com', '123', '123', 2, '123'),
 (8, '3@gmail.com', '1234', '123', 2, '123'),
 (9, '123abc@gmail.com', '123abc@gmail.com', '123abc@gmail.com', 2, '123abc@gmail.com'),
-(10, '1', '1', '1', 2, '1');
+(10, '1', '1', '1', 2, '1'),
+(11, '111', '111', '111', 2, '111'),
+(12, 'admin@gmail.com', 'admin', '123', 1, '123'),
+(13, 'user@gmail.com', 'user', '123', 2, '123');
 
 --
 -- Constraints for dumped tables
@@ -296,7 +348,8 @@ ALTER TABLE `order_detail`
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`catagory_id`);
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`catagory_id`),
+  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`brand_id`);
 
 --
 -- Constraints for table `product_detail`
