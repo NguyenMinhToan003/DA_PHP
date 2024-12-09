@@ -22,10 +22,10 @@ function uploadImage($file, $uploadDir = './uploads/')
         if (move_uploaded_file($fileTmpPath, $destPath)) {
           $uploadedFiles[] = $newFileName;
         } else {
-          return 'Error moving the file to upload directory.';
+          return 'Tải ảnh lên thất bại.';
         }
       } else {
-        return 'Upload failed. Allowed file types: ' . implode(',', $allowedfileExtensions);
+        return 'Tải ảnh bị lỗi' . implode(',', $allowedfileExtensions);
       }
     }
   }
@@ -37,8 +37,8 @@ function uploadImage($file, $uploadDir = './uploads/')
 // Kiểm tra nếu form đã được gửi
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Lấy dữ liệu từ form
-  $product_name = $_POST['product_name'];
-  $description = $_POST['product_description'];
+  $product_name = trim($_POST['product_name']);
+  $description = trim($_POST['product_description']);
   $catagory_id = $_POST['catagory_id'];
   $sizes = isset($_POST['sizes']) ? $_POST['sizes'] : [];
   $colors = isset($_POST['colors']) ? $_POST['colors'] : [];
@@ -81,15 +81,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       // Gọi phương thức thêm chi tiết sản phẩm
       $productObj->addProductDetail($product_id, $color_id, $size_id, $quantity, $price);
     }
-
     // Chuyển hướng về trang sản phẩm
     header('Location: index.php?page=qlsanpham');
     exit();
   } else {
     echo 'Vui lòng chọn đầy đủ màu sắc, kích thước và số lượng.';
   }
-} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-  // Lấy danh sách kích thước và màu sắc từ cơ sở dữ liệu
 }
 
 $catagory = new Catagory();
@@ -144,6 +141,14 @@ $allColors = $product->getAllColors();
           <input type='number' id='price' name='prices[]' class='w-full p-3 border border-gray-300 rounded-md' required>
         </div>`;
       container.appendChild(row);
+    }
+
+    function removeProductDetailRow() {
+      const container = document.getElementById('optionsContainer');
+      const rows = container.querySelectorAll('.flex');
+      if (rows.length > 1) {
+        container.removeChild(rows[rows.length - 1]);
+      }
     }
   </script>
 </head>
@@ -211,6 +216,7 @@ $allColors = $product->getAllColors();
           </div>
 
           <div class='flex justify-end mb-4'>
+            <button type='button' onclick='removeProductDetailRow()' class='bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-700 mr-4'>Xóa mẫu sản phẩm</button>
             <button type='button' onclick='addProductDetailRow()' class='bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-700'>Thêm mẫu sản phẩm</button>
           </div>
 

@@ -33,7 +33,7 @@ class Product extends Db
   // lay tat ca hinh anh cua san pham khi biet id
   function getImages($id)
   {
-    $sql = 'SELECT url_image FROM images WHERE product_id = ?';
+    $sql = 'SELECT * FROM images WHERE product_id = ?';
     return $this->selectSQL($sql, [$id]) ?? [];
   }
 
@@ -100,6 +100,20 @@ class Product extends Db
     return $this->selectSQL($sql, [$id]);
   }
 
+  // lay tat ca gia cua san pham 
+  function getAllPrice($id)
+  {
+    $sql = 'SELECT DISTINCT price FROM product_detail WHERE product_id = ?';
+    return $this->selectSQL($sql, [$id]) ?? [];
+  }
+  // lay gia cua san pham khi biet id san pham , id kich thuoc , id mau sac
+  function getPriceByColorIdSizeId($id, $color_id, $size_id)
+  {
+    $sql = 'SELECT price FROM product_detail WHERE product_id = ? AND color_id = ? AND size_id = ?';
+    $data = $this->selectSQL($sql, [$id, $color_id, $size_id]);
+    return $data[0]['price'] ?? 0;
+  }
+
   // lay thong tin tat ca mau sac, kich thuoc cua san pham
   function getProductById($id)
   {
@@ -111,45 +125,84 @@ class Product extends Db
                 p.product_id = ?';
     $cataObj = new Catagory();
     $product_detail = $this->selectSQL($sql, [$id]);
-
     $catagory = $cataObj->find($product_detail[0]['category_id']);
-
-
     $product = $this->getProduct($product_detail[0]['product_id'])  ?? [];
     $sizes = $this->getSizes($product_detail[0]['product_id']) ?? [];
     $colors = $this->getColors($product_detail[0]['product_id']) ?? [];
     $images = $this->getImages($product_detail[0]['product_id']) ?? [];
+    $prices = $this->getAllPrice($product_detail[0]['product_id']) ?? [];
+    $price =  number_format($prices[0]['price'] ?? 0) . 'đ -' . number_format(end($prices)['price'] ?? 0) . 'đ';
     return [
       'product_id' => $product[0]['product_id'],
       'product_name' => $product[0]['product_name'],
       'product_description' => $product[0]['product_description'],
       'catagory' => $catagory[0],
       'images' => $images,
-      'price' => $product[0]['price'],
+      'price' => $price,
       'colors' => $colors,
       'sizes' => $sizes
     ];
   }
 
   // lay thong tin chi tiet cua san pham khi biet id san pham va id kich thuoc
-  function getProductUser($id, $size_id)
+  function getProductUser($id, $size_id, $color_id)
   {
     $product = $this->getProduct($id);
     $sizes = $this->getSizes($id);
     $colors = $this->getColorsBySize($id, $size_id);
     $images = $this->getImages($id);
+    $price = $this->getPrice($id, $size_id, $color_id);
     return [
       'product_id' => $product[0]['product_id'],
       'product_name' => $product[0]['product_name'],
       'product_description' => $product[0]['product_description'],
       'images' => $images ?? [],
-      'price' => $product[0]['price'],
+      'price' => $price,
       'colors' => $colors,
       'sizes' => $sizes
     ];
   }
 
+  // lay gia cua san pham khi biet id san pham va id kich thuoc
+  function getPrice($id, $size_id, $color_id)
+  {
+    $sql = 'SELECT price FROM product_detail WHERE product_id = ? AND size_id = ? AND color_id = ?';
+    $data = $this->selectSQL($sql, [$id, $size_id, $color_id]);
+    return $data[0]['price'] ?? 0;
+  }
 
+  // lay color id khi biet id 
+  function getColorId($id)
+  {
+    $sql = 'SELECT * from colors WHERE color_id = ?';
+    return $this->selectSQL($sql, [$id]);
+  }
+
+  // lay size id khi biet id
+  function getSizeId($id)
+  {
+    $sql = 'SELECT * from sizes WHERE size_id = ?';
+    return $this->selectSQL($sql, [$id]);
+  }
+
+  // lay danh sach chi tiet san pham tu id san pham 
+  function getListProductDetailByProductId($id)
+  {
+    $sql = 'SELECT * FROM product_detail WHERE product_id = ?';
+
+    $data = $this->selectSQL($sql, [$id]) ?? [];
+    foreach ($data as $key => $value) {
+      $color = $this->getColorId($value['color_id']);
+      $size = $this->getSizeId($value['size_id']);
+      $data[$key]['color_name'] = $color[0]['color_name'];
+      $data[$key]['size_name'] = $size[0]['size_name'];
+    }
+    // echo '<pre>';
+    // print_r($data);
+    // echo '</pre>';
+    // exit;
+    return $data;
+  }
   // lay thong tin chi tiet cua san pham khi biet id san pham , id kich thuoc , id mau sac
   function getProductDetailByIdColorIdSizeId($id, $color_id, $size_id)
   {
@@ -168,7 +221,13 @@ class Product extends Db
                   product_detail.product_id = ? AND c.color_id = ? AND s.size_id = ?
     ';
     $data = $this->selectSQL($sql, [$id, $color_id, $size_id]);
+    $price = $this->getPriceByColorIdSizeId($id, $color_id, $size_id);
+    // echo '<pre>';
+    // print_r($price);
+    // echo '</pre>';
+    // exit;
     $images = $this->getImages($id);
+    $data[0]['price'] = $price;
     $data[0]['images'] = $images;
     return $data[0];
   }
@@ -217,6 +276,7 @@ class Product extends Db
     $sql = 'DELETE FROM images WHERE product_id = ?';
     return $this->deleteSQL($sql, [$id]);
   }
+  // xoa san pham by id
   function deleteProduct($id)
   {
     $allProductDetail = $this->getAllProductDetailByProductId($id);
@@ -228,9 +288,29 @@ class Product extends Db
 
     return $this->deleteSQL($sql, [$id]);
   }
+  // them hinh anh san pham
   function addProductImage($product_id, $url_image)
   {
     $sql = 'INSERT INTO images (product_id,url_image) VALUES (?, ?)';
     return $this->insertSQL($sql, [$product_id,  "./uploads/$url_image"]);
+  }
+
+  // cap nhat chi tiet san pham 
+  function updateProductDetail($product_detail_id, $color_id, $size_id, $quantity, $price)
+  {
+    $sql = 'UPDATE product_detail SET color_id = ?, size_id = ?, quantity = ?, price = ? WHERE product_detail_id = ?';
+    return $this->updateSQL($sql, [$color_id, $size_id, $quantity, $price, $product_detail_id]);
+  }
+  // cap nhat hinh anh 
+  function updateImage($product_id, $url_image)
+  {
+    $sql = 'UPDATE images SET url_image = ? WHERE product_id = ?';
+    return $this->updateSQL($sql, [$url_image, $product_id]);
+  }
+  // cap nhat san pham
+  function updateProduct($product_id, $name, $description, $category_id)
+  {
+    $sql = 'UPDATE products SET name = ?, description = ?, category_id = ? WHERE product_id = ?';
+    return $this->updateSQL($sql, [$name, $description, $category_id, $product_id]);
   }
 }

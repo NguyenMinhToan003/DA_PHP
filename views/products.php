@@ -37,8 +37,10 @@ $lstProduct = $product->getProductsByKeyAndCata($key, $catagory_id);
             </div>
           </div>
           <div class='p-4'>
-            <h3 class='text-lg font-bold text-gray-800 group-hover:text-primary'><?= $product['product_name'] ?></h3>
-            <p class='text-primary text-xl font-semibold'><?= number_format($product['price']) ?>đ</p>
+            <h3 class='text-lg font-bold text-gray-800 group-hover:text-primary whitespace-nowrap'><?= $product['product_name'] ?></h3>
+            <p class='text-primary text-xl font-semibold'>
+              <?php echo $product['price'] ?>đ
+            </p>
           </div>
         </a>
       </article>
