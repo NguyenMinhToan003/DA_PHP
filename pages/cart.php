@@ -47,7 +47,7 @@ if (count($cartsDetail) > 0) {
                   <p class='text-sm text-gray-500'>Size: <?php echo $v['size_name'] ?></p>
                 </td>
                 <td class='px-5 py-4'>
-                  <p class='text-red-600 font-bold'><?php echo number_format($v['price']) ?> đ</p>
+                  <p class='text-red-600 font-bold'><?php echo number_format($v['price'] ?? 0) ?> đ</p>
                 </td>
                 <td class='px-5 py-4'>
                   <form method='POST' action='../functions/cart.php'>

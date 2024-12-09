@@ -1,15 +1,29 @@
 <?php
 $productId = $_GET['id'] ?? 0;
-$sizeId = $_GET['size_id'] ?? 0;
+$sizeId = $_GET['size_id'] ?? 0; //6
+$colorId = $_GET['color_id'] ?? 0; //5
 
-$lstProduct = new Product();
-$product = $lstProduct->getProductUser($productId, $sizeId);
+$productObj = new Product();
 
+$product = $productObj->getProductUser($productId, $sizeId, $colorId);
 if ($sizeId == 0) {
   $sizeId = $product['sizes'][0]['size_id'] ?? 0;
-  $product = $lstProduct->getProductUser($productId, $sizeId);
+  $product = $productObj->getProductUser($productId, $sizeId, $colorId);
+  if ($colorId == 0) {
+    $colorId = $product['colors'][0]['color_id'] ?? 0;
+    $product = $productObj->getProductUser($productId, $sizeId, $colorId);
+  } else {
+    $product = $productObj->getProductUser($productId, $sizeId, $colorId);
+  }
+} else {
+  if ($colorId == 0) {
+    $colorId = $product['colors'][0]['color_id'] ?? 0;
+    $product = $productObj->getProductUser($productId, $sizeId, $colorId);
+  } else {
+    $product = $productObj->getProductUser($productId, $sizeId, $colorId);
+  }
 }
-$lstProduct = $lstProduct->random4($productId);
+$lstProduct = $productObj->random4($productId);
 
 if (!$product) {
   header('Location: index.php');
@@ -44,10 +58,30 @@ include './views/nav.php';
     <p class='text-3xl text-red-500 font-bold'><?php echo number_format($product['price']); ?> đ</p>
     <div class='h-1 bg-gradient-to-r from-red-500 via-gray-400 to-blue-500 my-4'></div>
 
+
+
+    <!-- Color Options -->
+    <?php if ($product['colors']) { ?>
+      <div class='flex items-center gap-4'>
+        <span class='text-lg font-semibold'>Màu sắc :</span>
+        <?php
+        foreach ($product['colors'] as $color) { ?>
+          <a href='../index.php?page=sanpham&id=<?php echo $productId; ?>&size_id=<?php echo $sizeId; ?>&color_id=<?php echo $color['color_id'] ?>'>
+            <div class='w-6 h-6 rounded-full bg-<?php echo $color['color_code']; ?> border-2 
+            <?php
+
+            if ($color['color_id'] == $colorId) {
+              echo 'ring-2 ring-black';
+            }
+            ?>              '></div>
+          </a>
+        <?php } ?>
+      </div>
+    <?php } ?>
     <!-- Size Options -->
     <?php if ($product['sizes']) { ?>
       <div class='flex items-center gap-4'>
-        <span class='text-lg font-semibold'>Sizes:</span>
+        <span class='text-lg font-semibold'>Kích thước :</span>
         <?php
 
         foreach ($product['sizes'] as $size) { ?>
@@ -60,30 +94,11 @@ include './views/nav.php';
         <?php } ?>
       </div>
     <?php } ?>
-
-    <!-- Color Options -->
-    <?php if ($product['colors']) { ?>
-      <div class='flex items-center gap-4'>
-        <span class='text-lg font-semibold'>Colors:</span>
-        <?php
-        $colorDefault = $product['colors'][0]['color_id'];
-
-        foreach ($product['colors'] as $color) { ?>
-          <label class='cursor-pointer'>
-            <input type='radio' name='color' value='<?php echo $color['color_id']; ?>'
-              checked='<?php echo $color['color_id'] == $colorDefault ? 'checked' : ''; ?>'
-              class='hidden peer' />
-            <div class='w-6 h-6 rounded-full bg-<?php echo $color['color_code']; ?> border-2 
-                            peer-checked:ring-2 peer-checked:ring-black'></div>
-          </label>
-        <?php } ?>
-      </div>
-    <?php } ?>
-
     <!-- Add to Cart Button -->
     <div>
       <input type='hidden' name='product_id' value='<?php echo $product['product_id']; ?>' />
       <input type='hidden' name='size' value='<?php echo $sizeId; ?>' />
+      <input type='hidden' name='color' value='<?php echo $colorId; ?>' />
       <button type='submit' name='add_to_cart' value='1' class='bg-gradient-to-r from-red-500 to-orange-700 text-white px-6 py-2 w-full rounded-lg font-semibold hover:opacity-90 transition'>
         Thêm vào giỏ hàng
       </button>
