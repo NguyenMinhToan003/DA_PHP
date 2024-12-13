@@ -25,7 +25,7 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
           DANG KY
         </a>
       <?php
-      } else {
+      } else if ($_SESSION['user']['role_id'] === 1) {
       ?>
         <a href='../index.php?page=qlsanpham' class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
           QUAN LY SAN PHAM
