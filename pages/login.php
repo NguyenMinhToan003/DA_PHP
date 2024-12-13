@@ -19,13 +19,15 @@ if (isset($_POST['login'])) {
         </div>  
         ";
       $_SESSION['user'] = $login[0];
+      $_SESSION['user_id'] = $login[0];
 
       if ($_SESSION['user']['role_id'] === 1) {
         header('location: ../index.php?page=qlsanpham');
       } else {
+        
         header('location:/index.php');
       }
-    } else {
+    }  else {
       $message = "
         <div class='p-3 bg-red-100 mb-2'>
           <p class=' text-red-900 text-center'>Đăng nhập thất bại.</p>
@@ -36,22 +38,25 @@ if (isset($_POST['login'])) {
 }
 ?>
 <div class='bg-gradient-to-r from-blue-50 via-blue-100 flex justify-center items-center h-full'>
-  <form method='POST' class='w-[500px]  mt-20 p-10 bg-white  rounded-md shadow-lg'>
-    <input type='hidden' name='page' value='dangnhap' />
-    <input type='hidden' name='login' value='1' />
-    <h5 class='text-center text-[30px] font-bold mb-4'>Đăng nhập</h5>
-    <?php echo $message; ?>
-    <div class="mb-4">
-      <label for="email" class="block">Email:</label>
-      <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type='text' id="email" name='email' />
-    </div>
+    <form method='POST' class='w-[500px]  mt-20 p-10 bg-white  rounded-md shadow-lg'>
+        <input type='hidden' name='page' value='dangnhap' />
+        <input type='hidden' name='login' value='1' />
+        <h5 class='text-center text-[30px] font-bold mb-4'>Đăng nhập</h5>
+        <?php echo $message; ?>
+        <div class="mb-4">
+            <label for="email" class="block">Email:</label>
+            <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                type='text' id="email" name='email' />
+        </div>
 
-    <div class="mb-4">
-      <label class="block" for="password">Password:</label>
-      <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type='password' id="password" name='password' />
-    </div>
+        <div class="mb-4">
+            <label class="block" for="password">Password:</label>
+            <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                type='password' id="password" name='password' />
+        </div>
 
-    <button type='submit' class='btn text-center p-3 bg-blue-600 text-white w-full rounded-sm font-bold'>Đâng nhập</button>
-    <a href='index.php?page=dangky' class='block text-start mt-4 text-blue-600'>Đăng ký tài khoản</a>
-  </form>
+        <button type='submit' class='btn text-center p-3 bg-blue-600 text-white w-full rounded-sm font-bold'>Đâng
+            nhập</button>
+        <a href='index.php?page=dangky' class='block text-start mt-4 text-blue-600'>Đăng ký tài khoản</a>
+    </form>
 </div>
