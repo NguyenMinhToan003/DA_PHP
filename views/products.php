@@ -3,19 +3,6 @@ $product = new Product();
 $key = $_GET['key'] ?? '';
 $catagory_id = $_GET['catagory_id'] ?? 0;
 $lstProduct = $product->getProductsByKeyAndCata($key, $catagory_id);
-// $lstProduct = [];
-// foreach ($lstProduct as $key => $value) {
-//   // $p = $product->getProductDetails($value['product_id']);
-//   // echo '<pre>';
-//   // print_r($p);
-//   // echo '</pre>';
-// }
-//in mang co can bo cuc
-// $p = $product->all();
-// echo '<pre>';
-// print_r($p);
-// echo '</pre>';
-
 ?>
 <div class='mt-7 w-[1200px] mx-auto'>
 
@@ -39,7 +26,7 @@ $lstProduct = $product->getProductsByKeyAndCata($key, $catagory_id);
           <div class='p-4'>
             <h3 class='text-lg font-bold text-gray-800 group-hover:text-primary whitespace-nowrap'><?= $product['product_name'] ?></h3>
             <p class='text-primary text-xl font-semibold'>
-              <?php echo $product['price'] ?>đ
+              <?php echo number_format($product['price']) ?> đ
             </p>
           </div>
         </a>

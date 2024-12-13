@@ -38,29 +38,35 @@ switch ($route) {
     include './functions/cart.php';
     break;
   case 'qlsanpham':
+    checkUser();
     include './admin/qlsanpham.php';
     break;
   case 'qltaikhoan':
+    checkUser();
     include './admin/qltaikhoan.php';
     break;
   case 'qlgiohang':
+    checkUser();
     include './admin/qlgiohang.php';
     break;
   case 'danhmuc':
+    checkUser();
     include './admin/danhmuc.php';
     break;
   case 'qlmau':
+    checkUser();
     include './admin/qlmau.php';
     break;
   case 'qlsize':
+    checkUser();
     include './admin/qlsize.php';
     break;
   case 'themsanpham':
-    
+    checkUser();
     include './admin/themsanpham.php';
     break;
   case 'xoasanpham':
-    // checkUser();
+    checkUser();
     include './functions/xoasanpham.php';
     break;
   case 'xacnhan-muahang':
@@ -70,10 +76,11 @@ switch ($route) {
     include './pages/order_success.php';
     break;
   case 'suasanpham':
-    // checkUser();
+    checkUser();
     include './admin/suasanpham.php';
     break;
   case 'chitiet':
+
     include './admin/chitiet.php';
     break;
   case 'history':

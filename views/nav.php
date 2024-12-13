@@ -21,12 +21,13 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
             <?php
       if (!isset($_SESSION['user'])) {
       ?>
-            <a href='../index.php?page=dangky'
-                class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
-                DANG KY
-            </a>
-            <?php
-      } else {
+
+        <a href='../index.php?page=dangky' class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>
+          DANG KY
+        </a>
+      <?php
+      } else if ($_SESSION['user']['role_id'] === 1) {
+
       ?>
             <a href='../index.php?page=qlsanpham'
                 class='text-[14px] font-medium hover:text-yellow-400 transition-colors duration-200'>

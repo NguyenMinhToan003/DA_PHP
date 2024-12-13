@@ -131,7 +131,7 @@ class Product extends Db
     $colors = $this->getColors($product_detail[0]['product_id']) ?? [];
     $images = $this->getImages($product_detail[0]['product_id']) ?? [];
     $prices = $this->getAllPrice($product_detail[0]['product_id']) ?? [];
-    $price =  number_format($prices[0]['price'] ?? 0) . 'đ -' . number_format(end($prices)['price'] ?? 0) . 'đ';
+    $price =  $prices[0]['price'];
     return [
       'product_id' => $product[0]['product_id'],
       'product_name' => $product[0]['product_name'],
