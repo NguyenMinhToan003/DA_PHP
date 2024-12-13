@@ -43,4 +43,20 @@ class Db
     $stm->execute($arrParam);
     return $stm->rowCount();
   }
+
+  // Bổ sung các phương thức giao dịch
+  public function beginTransaction()
+  {
+    Db::$conn->beginTransaction();
+  }
+
+  public function commit()
+  {
+    Db::$conn->commit();
+  }
+
+  public function rollBack()
+  {
+    Db::$conn->rollBack();
+  }
 }

@@ -1,32 +1,36 @@
-
 <?php
 
 class Order extends Db
 {
-  function addOrder($data)
-  {
-    $sql = 'INSERT INTO orders (username, street_address, phone_number, email_address, total, payment_method) VALUES (?, ?, ?, ?, ?, ?)';
+    // Thêm đơn hàng mới
+    function addOrder($user_id, $email, $name, $address, $tel, $note, $total)
+    {
+        $sql = 'INSERT INTO `order` (user_id, email, user_name, user_address, tel, note, total, status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        return $this->insertSQL($sql, [$user_id, $email, $name, $address, $tel, $note, $total, 1]);
+    }
 
-    return $this->updateSQL($sql, $data);;
-  }
+    // Thêm chi tiết đơn hàng
+    function addOrderDetail($order_id, $product_detail_id, $quantity, $product_name, $total_price)
+    {
+        $sql = 'INSERT INTO `order_detail` (order_id, product_detail_id, quantity, product_name, total_price) 
+                VALUES (?, ?, ?, ?, ?)';
+        return $this->insertSQL($sql, [$order_id, $product_detail_id, $quantity, $product_name, $total_price]);
+    }
 
-  function addOrderDetail($data)
-  {
-    $sql = 'INSERT INTO order_detail (order_id, product_id, size_id, color_id, quatity, price) VALUES (?, ?, ?, ?, ?, ?)';
-    $this->updateSQL($sql, $data);
-  }
+    // Lấy thông tin đơn hàng theo ID
+    function getOrder($id)
+    {
+        $sql = 'SELECT * FROM `order` WHERE order_id = ?';
+        return $this->selectSQL($sql, [$id]);
+    }
 
-  function getOrder($id)
-  {
-    $sql = 'SELECT * FROM orders WHERE order_id = ?';
-    return $this->selectSQL($sql, [$id]);
-  }
-
-  function getOrderDetail($id)
-  {
-    $sql = 'SELECT * FROM order_detail WHERE order_id = ?';
-    return $this->selectSQL($sql, [$id]);
-  }
+    // Lấy chi tiết đơn hàng theo ID
+    function getOrderDetail($order_id)
+    {
+        $sql = 'SELECT * FROM `order_detail` WHERE order_id = ?';
+        return $this->selectSQL($sql, [$order_id]);
+    }
 }
 
 ?>

@@ -71,4 +71,18 @@ class User extends Db
     $sql = 'SELECT * FROM users WHERE id=?';
     $data = $this->selectSQL($sql, [$id]);
   }
+
+  function getAllUsers()
+{
+    $sql = 'SELECT users.user_id, users.username, users.email, users.address, role.role_name
+            FROM users
+            JOIN role ON users.role_id = role.role_id';
+    $data = $this->selectSQL($sql); // Gọi phương thức selectSQL để truy xuất dữ liệu
+    return $data;
+}
+public function deleteUser($user_id) {
+  // Sử dụng phương thức deleteSQL từ lớp Db để xóa người dùng
+  $sql = "DELETE FROM users WHERE user_id = ?";
+  return $this->deleteSQL($sql, [$user_id]); // Gọi phương thức deleteSQL của lớp Db
+}
 }

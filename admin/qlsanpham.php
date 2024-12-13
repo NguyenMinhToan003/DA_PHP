@@ -33,7 +33,8 @@ if (isset($_POST['deleteProduct'])) {
             <div class='bg-white p-6 rounded-lg shadow-lg'>
                 <div class='flex justify-between items-center mb-4'>
                     <h2 class='text-xl font-bold'>Danh Sách Sản Phẩm</h2>
-                    <a href='index.php?page=themsanpham' class='bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700'>Thêm Sản Phẩm</a>
+                    <a href='index.php?page=themsanpham'
+                        class='bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700'>Thêm Sản Phẩm</a>
                 </div>
 
                 <div class='overflow-x-auto'>
@@ -54,28 +55,30 @@ if (isset($_POST['deleteProduct'])) {
 
                             <!-- Lặp lại cho các sản phẩm khác -->
                             <?php foreach ($lstProduct as $product) { ?>
-                                <tr>
-                                    <td class='py-2 px-3 border'><?php echo $product['product_id']; ?></td>
-                                    <td class='py-2 px-3 border'><?php echo $product['product_name']; ?></td>
-                                    <td class='py-2 px-3 border'>
-                                        <div class='w-full h-full flex justify-center items-center'>
-                                            <img src='<?php echo $product['images'][0]['url_image'] ?? ''; ?>' class='w-16 h-16 object-scale-down'>
-                                        </div>
-                                    </td>
-                                    <td class='py-2 px-3 border'><?php echo $product['catagory']['name']; ?></td>
-                                    <td class='py-2 px-3 border'>
-                                        <!-- Hiển thị kích thước dưới dạng badge -->
-                                        <div class='flex flex-wrap gap-1'>
-                                            <?php foreach ($product['sizes'] as $size) { ?>
-                                                <span class='bg-gray-200  px-2 py-1 mr-1'><?php echo $size['size_code']; ?></span>
-                                            <?php } ?>
-                                        </div>
-                                    </td>
-                                    <td class='py-2 px-3 border'>
-                                        <!-- Hiển thị màu sắc dưới dạng màu nền -->
-                                        <div class='flex flex-wrap gap-1'>
-                                            <?php foreach ($product['colors'] as $color) { ?>
-                                                <span class='inline-block
+                            <tr>
+                                <td class='py-2 px-3 border'><?php echo $product['product_id']; ?></td>
+                                <td class='py-2 px-3 border'><?php echo $product['product_name']; ?></td>
+                                <td class='py-2 px-3 border'>
+                                    <div class='w-full h-full flex justify-center items-center'>
+                                        <img src='<?php echo $product['images'][0]['url_image'] ?? ''; ?>'
+                                            class='w-16 h-16 object-scale-down'>
+                                    </div>
+                                </td>
+                                <td class='py-2 px-3 border'><?php echo $product['catagory']['name']; ?></td>
+                                <td class='py-2 px-3 border'>
+                                    <!-- Hiển thị kích thước dưới dạng badge -->
+                                    <div class='flex flex-wrap gap-1'>
+                                        <?php foreach ($product['sizes'] as $size) { ?>
+                                        <span
+                                            class='bg-gray-200  px-2 py-1 mr-1'><?php echo $size['size_code']; ?></span>
+                                        <?php } ?>
+                                    </div>
+                                </td>
+                                <td class='py-2 px-3 border'>
+                                    <!-- Hiển thị màu sắc dưới dạng màu nền -->
+                                    <div class='flex flex-wrap gap-1'>
+                                        <?php foreach ($product['colors'] as $color) { ?>
+                                        <span class='inline-block
                                                     bg-<?php echo $color['color_code']; ?>
                                                     px-2 py-1 mr-1 
                                                     <?php
@@ -85,22 +88,25 @@ if (isset($_POST['deleteProduct'])) {
                                                         echo 'text-white';
                                                     ?>
                                                 '>
-                                                    <?php echo $color['color_name']; ?>
-                                                </span>
-                                            <?php } ?>
-                                        </div>
-                                    </td>
-                                    <td class='py-2 px-3 border'><?php echo $product['price']; ?></td>
-                                    <td class='py-2 px-3 border '>
-                                        <div class='flex gap-3'>
-                                            <a href='index.php?page=suasanpham&id=<?php echo $product['product_id']; ?>' class='bg-blue-500 text-white px-2 py-1 rounded-sm hover:bg-blue-700 h-fit'>Sửa</a>
-                                            <form method='POST'>
-                                                <input type='hidden' name='product_id' value='<?php echo $product['product_id']; ?>'>
-                                                <button type='submit' name='deleteProduct' value='1' class='bg-red-500 text-white px-2 py-1 rounded-sm hover:bg-red-700'>Xóa</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
+                                            <?php echo $color['color_name']; ?>
+                                        </span>
+                                        <?php } ?>
+                                    </div>
+                                </td>
+                                <td class='py-2 px-3 border'><?php echo $product['price']; ?></td>
+                                <td class='py-2 px-3 border '>
+                                    <div class='flex gap-3'>
+                                        <a href='index.php?page=suasanpham&id=<?php echo $product['product_id']; ?>'
+                                            class='bg-blue-500 text-white px-2 py-1 rounded-sm hover:bg-blue-700 h-fit'>Sửa</a>
+                                        <form method='POST'>
+                                            <input type='hidden' name='product_id'
+                                                value='<?php echo $product['product_id']; ?>'>
+                                            <button type='submit' name='deleteProduct' value='1'
+                                                class='bg-red-500 text-white px-2 py-1 rounded-sm hover:bg-red-700'>Xóa</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
                             <?php } ?>
                             <!-- Thêm các hàng sản phẩm khác ở đây -->
                         </tbody>
