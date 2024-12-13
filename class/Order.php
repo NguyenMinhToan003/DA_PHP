@@ -31,6 +31,12 @@ class Order extends Db
         $sql = 'SELECT * FROM `order_detail` WHERE order_id = ?';
         return $this->selectSQL($sql, [$order_id]);
     }
+    public function updateOrderStatus($order_id, $status) {
+        $sql = "UPDATE `order` SET `status` = ? WHERE `order_id` = ?";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->execute([$status, $order_id]);
+    }
+
 }
 
 ?>
