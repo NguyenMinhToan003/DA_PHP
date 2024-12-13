@@ -19,7 +19,7 @@
             <a href="/"
                 class="bg-green-500 text-white py-3 px-6 rounded-full font-semibold shadow hover:bg-green-600 transition">Quay
                 Về Trang Chủ</a>
-            <a href="/orders"
+            <a href="../index.php?page=history"
                 class="bg-blue-500 text-white py-3 px-6 rounded-full font-semibold shadow hover:bg-blue-600 transition">Xem
                 Đơn Hàng</a>
         </div>

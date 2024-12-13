@@ -74,8 +74,10 @@ switch ($route) {
     include './admin/suasanpham.php';
     break;
   case 'chitiet':
-    
     include './admin/chitiet.php';
+    break;
+  case 'history':
+    include './pages/history.php';
     break;
   default:
     include './pages/404.php';
