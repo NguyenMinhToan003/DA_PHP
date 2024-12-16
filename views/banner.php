@@ -3,35 +3,32 @@
 $indexBanner = $_GET['indexbanner'] ?? 0;
 $Catagory = new Catagory();
 $catagories = $Catagory->all();
-// echo '<pre>';
-// print_r($catagories);
-// echo '</pre>';
 $banner = array(
-  array(
-    'color' => 'black',
-    'title' => 'iPhone 16 Pro Max | Chinh hang VN/A giảm giá 30%',
-    'img' => './images/banner1.png',
-  ),
-  array(
-    'color' => 'slate-400',
-    'title' => 'Stone',
+    array(
+        'color' => 'black',
+        'title' => 'iPhone 16 Pro Max | Chinh hang VN/A giảm giá 30%',
+        'img' => './images/banner1.png',
+    ),
+    array(
+        'color' => 'slate-400',
+        'title' => 'Stone',
 
-  ),
-  array(
-    'color' => 'orange-800',
-    'title' => 'Orange',
+    ),
+    array(
+        'color' => 'orange-800',
+        'title' => 'Orange',
 
-  )
+    )
 );
 ?>
 <div class='flex w-[1200px] mx-auto'>
 
     <div class='w-[270px] mt-[40px] flex flex-col gap-4'>
-        <?php foreach ($catagories as $catagory) { ?>
-        <a href='../index.php?page=timkiem&catagory_id=<?= $catagory['catagory_id'] ?>'
-            class='text-[16px] py-3 px-4 border-l-4 border-transparent hover:border-green-500 transition-all'>
-            <?= $catagory['name'] ?>
-        </a>
+        <?php for ($i = 0; $i < count($catagories) && $i < 5; $i++) { ?>
+            <a href='../index.php?page=timkiem&catagory_id=<?= $catagories[$i]['catagory_id'] ?>'
+                class='text-[16px] py-3 px-4 border-l-4 border-transparent hover:border-green-500 transition-all'>
+                <?= $catagories[$i]['name'] ?>
+            </a>
         <?php } ?>
     </div>
 
@@ -43,25 +40,25 @@ $banner = array(
         <div class='w-[892px] h-[344px] bg-gray-500 overflow-hidden rounded-md shadow-lg'>
             <div class='w-full h-full flex banner transition-all ease-linear'>
                 <?php
-        foreach ($banner as $key => $value) {
-        ?>
-                <div
-                    class='relative min-w-full h-full overflow-hidden flex items-center justify-center bg-<?php echo $value['color'] ?> rounded-xl'>
-                    <div class='text-white max-w-56 text-xl font-semibold absolute left-16 bottom-20'>
-                        <?php echo $value['title'] ?>
+                foreach ($banner as $key => $value) {
+                ?>
+                    <div
+                        class='relative min-w-full h-full overflow-hidden flex items-center justify-center bg-<?php echo $value['color'] ?> rounded-xl'>
+                        <div class='text-white max-w-56 text-xl font-semibold absolute left-16 bottom-20'>
+                            <?php echo $value['title'] ?>
+                        </div>
+                        <?php
+                        if (isset($value['img'])) {
+                        ?>
+                            <img src='<?php echo $value['img'] ?>'
+                                class='w-[496px] h-[352px] object-cover absolute top-[50%] right-3 translate-y-[-50%]' />
+                        <?php
+                        }
+                        ?>
                     </div>
-                    <?php
-            if (isset($value['img'])) {
-            ?>
-                    <img src='<?php echo $value['img'] ?>'
-                        class='w-[496px] h-[352px] object-cover absolute top-[50%] right-3 translate-y-[-50%]' />
-                    <?php
-            }
-            ?>
-                </div>
                 <?php
-        }
-        ?>
+                }
+                ?>
             </div>
         </div>
 
@@ -74,58 +71,58 @@ $banner = array(
             </button>
             <div class='absolute bottom-3 left-[50%] translate-x-[-50%]'>
                 <?php
-        for ($i = 0; $i < count($banner); $i++) {
-        ?>
-                <div
-                    class='dot w-3 h-3 cursor-pointer bg-[#808080] rounded-full inline-block mx-1 transition-all hover:bg-primary'>
-                </div>
+                for ($i = 0; $i < count($banner); $i++) {
+                ?>
+                    <div
+                        class='dot w-3 h-3 cursor-pointer bg-[#808080] rounded-full inline-block mx-1 transition-all hover:bg-primary'>
+                    </div>
                 <?php
-        }
-        ?>
+                }
+                ?>
             </div>
         </div>
     </div>
 </div>
 <script>
-const dots = document.querySelectorAll('.dot');
-const banner = document.querySelector('.banner');
-let activeDot = dots[0];
-dots[0].classList.add('bg-primary', 'border-while', 'border-2');
-dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-        banner.style.transform = `translateX(-${index * 100}%)`;
-        activeDot.classList.remove('bg-primary', 'border-while', 'border-2');
-        dot.classList.add('bg-primary', 'border-while', 'border-2');
-        activeDot = dot;
+    const dots = document.querySelectorAll('.dot');
+    const banner = document.querySelector('.banner');
+    let activeDot = dots[0];
+    dots[0].classList.add('bg-primary', 'border-while', 'border-2');
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            banner.style.transform = `translateX(-${index * 100}%)`;
+            activeDot.classList.remove('bg-primary', 'border-while', 'border-2');
+            dot.classList.add('bg-primary', 'border-while', 'border-2');
+            activeDot = dot;
+        });
     });
-});
-const arrowLeft = document.querySelector('.arrowlef');
-const arrowRight = document.querySelector('.arrowright');
-let indexBanner = 0;
-const handlerNextBanner = (element = '') => {
-    if (element === 'right' || element === '') {
-        indexBanner++;
-        if (indexBanner >= dots.length) {
-            indexBanner = 0;
+    const arrowLeft = document.querySelector('.arrowlef');
+    const arrowRight = document.querySelector('.arrowright');
+    let indexBanner = 0;
+    const handlerNextBanner = (element = '') => {
+        if (element === 'right' || element === '') {
+            indexBanner++;
+            if (indexBanner >= dots.length) {
+                indexBanner = 0;
+            }
+        } else {
+            indexBanner--;
+            if (indexBanner < 0) {
+                indexBanner = dots.length - 1;
+            }
         }
-    } else {
-        indexBanner--;
-        if (indexBanner < 0) {
-            indexBanner = dots.length - 1;
-        }
+        banner.style.transform = `translateX(-${indexBanner * 100}%)`;
+        activeDot.classList.remove('bg-primary', 'border-while', 'border-2');
+        dots[indexBanner].classList.add('bg-primary', 'border-while', 'border-2');
+        activeDot = dots[indexBanner];
     }
-    banner.style.transform = `translateX(-${indexBanner * 100}%)`;
-    activeDot.classList.remove('bg-primary', 'border-while', 'border-2');
-    dots[indexBanner].classList.add('bg-primary', 'border-while', 'border-2');
-    activeDot = dots[indexBanner];
-}
-arrowRight.addEventListener('click', () => {
-    handlerNextBanner('right');
-});
-arrowLeft.addEventListener('click', () => {
-    handlerNextBanner('left');
-})
-const timeout = setInterval(() => {
-    handlerNextBanner();
-}, 4000);
+    arrowRight.addEventListener('click', () => {
+        handlerNextBanner('right');
+    });
+    arrowLeft.addEventListener('click', () => {
+        handlerNextBanner('left');
+    })
+    const timeout = setInterval(() => {
+        handlerNextBanner();
+    }, 4000);
 </script>

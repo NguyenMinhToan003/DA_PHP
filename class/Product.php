@@ -14,6 +14,8 @@ class Product extends Db
     }
     foreach ($data as $key => $value) {
       $data[$key] = $this->getProductById($value['product_id']);
+      $quatity = $this->getQuatityProduct($value['product_id']);
+      $data[$key]['quatity'] = $quatity;
     }
     return $data  ?? [];
   }
@@ -25,11 +27,19 @@ class Product extends Db
     $data = $this->selectSQL($sql);
     foreach ($data as $key => $value) {
       $images = $this->getImages($value['product_id']);
+      $price = $this->getAllPrice($value['product_id']);
       $data[$key]['images'] = $images;
+      $data[$key]['price'] = $price[0]['price'] ?? 0;
     }
     return $data;
   }
 
+  function getQuatityProduct($id)
+  {
+    $sql = 'SELECT SUM(quantity) as quantity FROM product_detail WHERE product_id = ?';
+    $data = $this->selectSQL($sql, [$id]);
+    return $data[0]['quantity'] ?? 0;
+  }
   // lay tat ca hinh anh cua san pham khi biet id
   function getImages($id)
   {
@@ -131,7 +141,7 @@ class Product extends Db
     $colors = $this->getColors($product_detail[0]['product_id']) ?? [];
     $images = $this->getImages($product_detail[0]['product_id']) ?? [];
     $prices = $this->getAllPrice($product_detail[0]['product_id']) ?? [];
-    $price =  $prices[0]['price'];
+    $price =  $prices[0]['price'] ?? 0;
     return [
       'product_id' => $product[0]['product_id'],
       'product_name' => $product[0]['product_name'],

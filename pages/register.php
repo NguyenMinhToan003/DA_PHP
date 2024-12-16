@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = ($_POST['password']);
     $email = ($_POST['email']);
     $address = ($_POST['address']);
+    $tel = ($_POST['tel']);
     $user = new User();
     if (empty($username) || empty($password) || empty($email) || empty($address)) {
       $message = "
@@ -25,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
         ";
       } else {
-        $register = $user->register($username, $password, $email, $address);
+        $register = $user->register($username, $password, $email, $address, $tel);
         if ($register) {
           $message = "
         <div class='p-3 bg-green-100 mb-2'>
@@ -66,6 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="mb-4">
       <label class="block" for="address">Address:</label>
       <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type='text' id="address" name='address' />
+    </div>
+    <div class="mb-4">
+      <label class="block" for="tel">Số điện thoại:</label>
+      <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type='text' id="tel" name='tel' />
     </div>
     <button type='submit' class='btn text-center p-3 bg-blue-600 text-white w-full rounded-sm font-bold'>Đăng kí tài khoản</button>
     <a href='index.php?page=dangnhap' class='block text-start mt-4 text-blue-600'>Đăng nhập</a>

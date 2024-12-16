@@ -10,10 +10,10 @@ class User extends Db
     $data = $this->selectSQL($sql, [$email, $password]);
     return $data;
   }
-  function register($username, $password, $email, $address)
+  function register($username, $password, $email, $address, $tel)
   {
-    $sql = 'INSERT INTO users(username, password, email, address,role_id) VALUES(?,?,?,?,2)';
-    $data = $this->updateSQL($sql, [$username, $password, $email, $address]);
+    $sql = 'INSERT INTO users(username, password, email, address,role_id,teltel) VALUES(?,?,?,?,2,?)';
+    $data = $this->updateSQL($sql, [$username, $password, $email, $address, $tel]);
     return $data;
   }
   function checkUser($username)
@@ -73,16 +73,17 @@ class User extends Db
   }
 
   function getAllUsers()
-{
+  {
     $sql = 'SELECT users.user_id, users.username, users.email, users.address, role.role_name
             FROM users
             JOIN role ON users.role_id = role.role_id';
     $data = $this->selectSQL($sql); // Gọi phương thức selectSQL để truy xuất dữ liệu
     return $data;
-}
-public function deleteUser($user_id) {
-  // Sử dụng phương thức deleteSQL từ lớp Db để xóa người dùng
-  $sql = "DELETE FROM users WHERE user_id = ?";
-  return $this->deleteSQL($sql, [$user_id]); // Gọi phương thức deleteSQL của lớp Db
-}
+  }
+  public function deleteUser($user_id)
+  {
+    // Sử dụng phương thức deleteSQL từ lớp Db để xóa người dùng
+    $sql = "DELETE FROM users WHERE user_id = ?";
+    return $this->deleteSQL($sql, [$user_id]); // Gọi phương thức deleteSQL của lớp Db
+  }
 }

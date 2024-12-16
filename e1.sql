@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `e1`
+-- Database: `if0_37906965_e1`
 --
 
 -- --------------------------------------------------------
@@ -27,20 +27,11 @@ SET time_zone = "+00:00";
 -- Table structure for table `brands`
 --
 
-DROP TABLE IF EXISTS `brands`;
-CREATE TABLE IF NOT EXISTS `brands` (
-  `brand_id` int NOT NULL,
-  `brand_name` varchar(20) NOT NULL,
-  `url_image` int NOT NULL,
-  PRIMARY KEY (`brand_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `brands`
 --
 
-INSERT INTO `brands` (`brand_id`, `brand_name`, `url_image`) VALUES
-(1, 'Không có', 0);
 
 -- --------------------------------------------------------
 
@@ -56,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`catagory_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `categories`
@@ -81,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `colors` (
   `color_name` varchar(10) NOT NULL,
   `color_code` varchar(10) NOT NULL,
   PRIMARY KEY (`color_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `colors`
@@ -108,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `product_id` int NOT NULL,
   PRIMARY KEY (`image_id`),
   KEY `product_id` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `images`
@@ -147,15 +138,15 @@ CREATE TABLE IF NOT EXISTS `order` (
   `order_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `email` varchar(100) NOT NULL,
-  `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `user_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `user_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tel` varchar(11) NOT NULL,
   `note` text NOT NULL,
   `total` float NOT NULL,
   `status` int NOT NULL,
   PRIMARY KEY (`order_id`),
   KEY `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order`
@@ -182,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   PRIMARY KEY (`detail_id`),
   KEY `order` (`order_id`),
   KEY `product_detail_id` (`product_detail_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order_detail`
@@ -201,29 +192,27 @@ INSERT INTO `order_detail` (`detail_id`, `order_id`, `product_detail_id`, `quant
 
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
-  `product_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `description` text,
-  `category_id` int NOT NULL,
-  `brand_id` int NOT NULL,
-  `price` float NOT NULL,
-  PRIMARY KEY (`product_id`),
-  KEY `category_id` (`category_id`),
-  KEY `brand_id` (`brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    `product_id` int NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL,
+    `description` text,
+    `category_id` int NOT NULL,
+    `price` float NOT NULL,
+    PRIMARY KEY (`product_id`),
+    KEY `category_id` (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `name`, `description`, `category_id`, `brand_id`, `price`) VALUES
-(53, 'Sách obn lkdawdawdawda', 'dawdwawadadaw', 22, 1, 0),
-(54, 'Sách obn lkdawdawdawda', 'dawdawdawdawdawdawdawdawdawadawdawdad', 24, 1, 0),
-(55, 'Sách obn lkdawdawdawda', 'dwadawdd', 22, 1, 0),
-(56, 'Sách obn lkdawdawdawda', 'dwadwadaw', 22, 1, 0),
-(57, 'Sách obn lkdawdawdawdadaw', 'dwadawdadawdawadw', 22, 1, 0),
-(58, 'Sách obn lkdawdawdawdadaw', 'dwadawdawdawd', 22, 1, 0),
-(59, 'Chuột', 'Chuột không dây', 35, 1, 0);
+INSERT INTO `products` (`product_id`, `name`, `description`, `category_id`,`price`) VALUES
+(53, 'Sách obn lkdawdawdawda', 'dawdwawadadaw', 22,  0),
+(54, 'Sách obn lkdawdawdawda', 'dawdawdawdawdawdawdawdawdawadawdawdad', 24,0),
+(55, 'Sách obn lkdawdawdawda', 'dwadawdd', 22,0),
+(56, 'Sách obn lkdawdawdawda', 'dwadwadaw', 22,0),
+(57, 'Sách obn lkdawdawdawdadaw', 'dwadawdadawdawadw', 22,0),
+(58, 'Sách obn lkdawdawdawdadaw', 'dwadawdawdawd', 22,0),
+(59, 'Chuột', 'Chuột không dây', 35,0);
 
 -- --------------------------------------------------------
 
@@ -237,30 +226,29 @@ CREATE TABLE IF NOT EXISTS `product_detail` (
   `product_id` int NOT NULL,
   `size_id` int NOT NULL,
   `color_id` int NOT NULL,
-  `count` int NOT NULL,
   `price` float NOT NULL,
   `quantity` int NOT NULL,
   PRIMARY KEY (`product_detail_id`),
   KEY `product_id` (`product_id`),
   KEY `size_id` (`size_id`),
   KEY `color_id` (`color_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_detail`
 --
 
-INSERT INTO `product_detail` (`product_detail_id`, `product_id`, `size_id`, `color_id`, `count`, `price`, `quantity`) VALUES
-(55, 53, 6, 1, 0, 123, 123),
-(56, 54, 5, 2, 0, 123, 123),
-(57, 54, 6, 5, 0, 12312, 1233),
-(58, 55, 5, 5, 0, 232211, 123),
-(59, 56, 6, 1, 0, 232211, 123),
-(60, 56, 6, 3, 0, 3323, 23223),
-(61, 57, 7, 2, 0, 232211, 123),
-(62, 58, 6, 2, 0, 232211, 123),
-(63, 59, 6, 2, 0, 100, 2),
-(64, 59, 6, 3, 0, 120, 3);
+INSERT INTO `product_detail` (`product_detail_id`, `product_id`, `size_id`, `color_id`,  `price`, `quantity`) VALUES
+(55, 53, 6, 1, 123, 123),
+(56, 54, 5, 2, 123, 123),
+(57, 54, 6, 5, 12312, 1233),
+(58, 55, 5, 5, 232211, 123),
+(59, 56, 6, 1, 232211, 123),
+(60, 56, 6, 3, 3323, 23223),
+(61, 57, 7, 2, 232211, 123),
+(62, 58, 6, 2, 232211, 123),
+(63, 59, 6, 2, 100, 2),
+(64, 59, 6, 3, 120, 3);
 
 -- --------------------------------------------------------
 
@@ -273,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `role_id` int NOT NULL AUTO_INCREMENT,
   `role_name` varchar(50) NOT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `role`
@@ -295,7 +283,7 @@ CREATE TABLE IF NOT EXISTS `sizes` (
   `size_name` varchar(10) NOT NULL,
   `size_code` varchar(10) NOT NULL,
   PRIMARY KEY (`size_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sizes`
@@ -316,22 +304,23 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(50) NOT NULL,
-  `username` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `username` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `role_id` int NOT NULL,
   `address` text NOT NULL,
+  `tel` varchar(11) NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `email`, `username`, `password`, `role_id`, `address`) VALUES
-(8, '3@gmail.com', '1234', '123', 2, 'HCM'),
-(12, 'admin@gmail.com', 'admin', '123', 1, 'Ha Noi'),
-(13, 'user@gmail.com', 'user', '123', 2, 'Ha Noi');
+INSERT INTO `users` (`user_id`, `email`, `username`, `password`, `role_id`, `address`,`tel`) VALUES
+(8, '3@gmail.com', '1234', '123', 2, 'HCM','0987654321'),
+(12, 'admin@gmail.com', 'admin', '123', 1, 'Ha Noi','0987654321'),
+(13, 'user@gmail.com', 'user', '123', 2, 'Ha Noi','1111');
 
 --
 -- Constraints for dumped tables
@@ -360,8 +349,8 @@ ALTER TABLE `order_detail`
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`catagory_id`),
-  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`brand_id`);
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`catagory_id`);
+
 
 --
 -- Constraints for table `product_detail`
