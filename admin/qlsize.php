@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
     $sql = "INSERT INTO sizes (size_name, size_code) VALUES (?, ?)";
     $arrParam = [$size_name, $size_code];
     if ($db->insertSQL($sql, $arrParam)) {
-        echo "<script>alert('Thêm kích cỡ thành công!'); window.location.href='qlsize.php';</script>";
+        echo "<script>alert('Thêm kích cỡ thành công!'); window.location.href='./index.php?page=qlsize';</script>";
     } else {
         echo "<script>alert('Lỗi khi thêm kích cỡ!');</script>";
     }
@@ -29,20 +29,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit'])) {
     $sql = "UPDATE sizes SET size_name = ?, size_code = ? WHERE size_id = ?";
     $arrParam = [$size_name, $size_code, $size_id];
     if ($db->updateSQL($sql, $arrParam)) {
-        echo "<script>alert('Sửa kích cỡ thành công!'); window.location.href='qlsize.php';</script>";
+        echo "<script>alert('Sửa kích cỡ thành công!'); window.location.href='./index.php?page=qlsize';</script>";
     } else {
         echo "<script>alert('Lỗi khi sửa kích cỡ!');</script>";
     }
 }
 
 // Xóa kích cỡ
-if (isset($_GET['delete'])) {
-    $size_id = $_GET['delete'];
+if (isset($_POST['delete'])) {
+    $size_id = $_POST['size_id'];
 
     $sql = "DELETE FROM sizes WHERE size_id = ?";
     $arrParam = [$size_id];
     if ($db->deleteSQL($sql, $arrParam)) {
-        echo "<script>alert('Xóa kích cỡ thành công!'); window.location.href='qlsize.php';</script>";
+        echo "<script>alert('Xóa kích cỡ thành công!'); window.location.href='./index.php?page=qlsize';</script>";
     } else {
         echo "<script>alert('Lỗi khi xóa kích cỡ!');</script>";
     }
@@ -82,18 +82,18 @@ if (isset($_GET['delete'])) {
                     </thead>
                     <tbody>
                         <?php foreach ($result as $row) { ?>
-                        <tr class="border-b">
-                            <td class="py-2 px-4"><?php echo $row['size_id']; ?></td>
-                            <td class="py-2 px-4"><?php echo $row['size_name']; ?></td>
-                            <td class="py-2 px-4"><?php echo $row['size_code']; ?></td>
-                            <td class="py-2 px-4">
-                                <button
-                                    onclick="openEditModal(<?php echo $row['size_id']; ?>, '<?php echo $row['size_name']; ?>', '<?php echo $row['size_code']; ?>')"
-                                    class="bg-yellow-500 text-white p-2 rounded-md">Sửa</button>
-                                <button onclick="confirmDelete(<?php echo $row['size_id']; ?>)"
-                                    class="bg-red-500 text-white p-2 rounded-md">Xóa</button>
-                            </td>
-                        </tr>
+                            <tr class="border-b">
+                                <td class="py-2 px-4"><?php echo $row['size_id']; ?></td>
+                                <td class="py-2 px-4"><?php echo $row['size_name']; ?></td>
+                                <td class="py-2 px-4"><?php echo $row['size_code']; ?></td>
+                                <td class="py-2 px-4">
+                                    <button
+                                        onclick="openEditModal(<?php echo $row['size_id']; ?>, '<?php echo $row['size_name']; ?>', '<?php echo $row['size_code']; ?>')"
+                                        class="bg-yellow-500 text-white p-2 rounded-md">Sửa</button>
+                                    <button onclick="openDeleteModal(<?php echo $row['size_id']; ?>)"
+                                        class="bg-red-500 text-white p-2 rounded-md">Xóa</button>
+                                </td>
+                            </tr>
                         <?php } ?>
                     </tbody>
                 </table>
@@ -127,17 +127,22 @@ if (isset($_GET['delete'])) {
                 </div>
 
                 <!-- Modal Xác Nhận Xóa -->
-                <div id="deleteModal"
+                <div id="confirm-modal"
                     class="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 hidden">
                     <div class="bg-white p-6 rounded-lg w-96">
                         <h2 class="text-xl font-semibold mb-4">Xác Nhận Xóa</h2>
                         <p>Bạn có chắc muốn xóa kích cỡ này không?</p>
-                        <div class="flex justify-evenly mt-4">
-                            <button id="confirmDeleteBtn"
-                                class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Xóa</button>
-                            <button onclick="closeDeleteModal()"
-                                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">Hủy</button>
-                        </div>
+                        <form class="flex justify-evenly mt-4" id="confirm-form" method="POST"
+                            action="./index.php?page=qlsize">
+                            <input type="hidden" id="delete" name="size_id">
+                            <button type="submit" name="delete"
+                                class="bg-red-500 text-white p-3 rounded-md">Xóa</button>
+                            <button type="button" onclick="closeModal('confirm-modal')"
+                                class="bg-gray-500 text-white p-3 rounded-md ml-4">
+                                Hủy
+                            </button>
+
+                        </form>
                     </div>
                 </div>
             </div>
@@ -145,46 +150,46 @@ if (isset($_GET['delete'])) {
     </div>
 
     <script>
-    // Open Add Modal
-    function openAddModal() {
-        document.getElementById('modal').classList.remove('hidden');
-        document.getElementById('modalTitle').innerText = 'Thêm Kích Cỡ';
-        document.getElementById('submitBtn').name = 'add';
-        document.getElementById('sizeForm').reset();
-    }
+        // Open Add Modal
+        function openAddModal() {
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modalTitle').innerText = 'Thêm Kích Cỡ';
+            document.getElementById('submitBtn').name = 'add';
+            document.getElementById('sizeForm').reset();
+        }
 
-    // Open Edit Modal with existing data
-    function openEditModal(id, name, code) {
-        document.getElementById('modal').classList.remove('hidden');
-        document.getElementById('modalTitle').innerText = 'Sửa Kích Cỡ';
-        document.getElementById('submitBtn').name = 'edit';
-        document.getElementById('size_id').value = id;
-        document.getElementById('size_name').value = name;
-        document.getElementById('size_code').value = code;
-    }
+        // Open Edit Modal with existing data
+        function openEditModal(id, name, code) {
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modalTitle').innerText = 'Sửa Kích Cỡ';
+            document.getElementById('submitBtn').name = 'edit';
+            document.getElementById('size_id').value = id;
+            document.getElementById('size_name').value = name;
+            document.getElementById('size_code').value = code;
+        }
 
-    // Close Modal
-    function closeModal() {
-        document.getElementById('modal').classList.add('hidden');
-    }
+        // Close Modal
+        function closeModal(modalId = 'modal') {
+            document.getElementById(modalId).classList.add('hidden');
+        }
 
-    // Open Delete Confirmation Modal
-    function confirmDelete(size_id) {
-        document.getElementById('deleteModal').classList.remove('hidden');
-        document.getElementById('confirmDeleteBtn').onclick = function() {
-            deleteSize(size_id);
-        };
-    }
+        function openDeleteModal(id) {
+            const confirmModal = document.getElementById('confirm-modal');
+            const deleteCategoryIdInput = document.getElementById('delete');
 
-    // Close Delete Confirmation Modal
-    function closeDeleteModal() {
-        document.getElementById('deleteModal').classList.add('hidden');
-    }
+            confirmModal.classList.remove('hidden');
+            deleteCategoryIdInput.value = id;
+        }
 
-    // Delete Size
-    function deleteSize(size_id) {
-        window.location.href = '?delete=' + size_id;
-    }
+        // Close Delete Confirmation Modal
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.add('hidden');
+        }
+
+        // Delete Size
+        function deleteSize(size_id) {
+            window.location.href = '?delete=' + size_id;
+        }
     </script>
 </body>
 

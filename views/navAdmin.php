@@ -6,9 +6,7 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : '';
     <div class='bg-blue-900 text-white w-48 p-4 flex flex-col justify-between fixed left-0 top-0 bottom-0'>
         <div>
             <h2 class='text-lg font-bold mb-4'>Trang Quản Trị</h2>
-            <div class="mb-4">
-                <img src='../images/Logo_STU.png' alt='Logo' class='w-32 h-32 mx-auto' />
-            </div>
+
             <nav>
                 <ul>
 
@@ -37,7 +35,7 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : '';
                                 <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 3v18h18'>
                                 </path>
                             </svg>
-                            Khách hàng
+                            Tài khoản
                         </a></li>
                     <li class='mb-3'><a href='../index.php?page=danhmuc'
                             class='flex items-center py-2 px-3 rounded transition duration-200 hover:bg-blue-700'>

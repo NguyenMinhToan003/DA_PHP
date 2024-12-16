@@ -25,4 +25,3 @@ class Catagory extends Db
         return false;
     }
 }
-?>

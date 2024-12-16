@@ -12,7 +12,7 @@ if (isset($_POST['add_category'])) {
     $description = $_POST['description'];
     $sql = "INSERT INTO categories (name, description) VALUES (?, ?)";
     $catagory->executeSQL($sql, [$name, $description]);
-    header("Location: danhmuc.php");
+    header("Location: ./index.php?page=danhmuc");
     exit();
 }
 
@@ -23,7 +23,7 @@ if (isset($_POST['edit_category'])) {
     $description = $_POST['description'];
     $sql = "UPDATE categories SET name = ?, description = ? WHERE catagory_id = ?";
     $catagory->executeSQL($sql, [$name, $description, $category_id]);
-    header("Location: danhmuc.php");
+    header("Location: ./index.php?page=danhmuc");
     exit();
 }
 
@@ -32,7 +32,7 @@ if (isset($_POST['delete_category'])) {
     $category_id = $_POST['category_id'];
     $sql = "DELETE FROM categories WHERE catagory_id = ?";
     $catagory->executeSQL($sql, [$category_id]);
-    header("Location: danhmuc.php");
+    header("Location: ./index.php?page=danhmuc");
     exit();
 }
 ?>
@@ -74,20 +74,20 @@ if (isset($_POST['delete_category'])) {
                     </thead>
                     <tbody>
                         <?php foreach ($categories as $row): ?>
-                        <tr class="border-b">
-                            <td class="p-3 text-center"><?php echo $row['catagory_id']; ?></td>
-                            <td class="p-3"><?php echo $row['name']; ?></td>
-                            <td class="p-3"><?php echo $row['description']; ?></td>
-                            <td class="p-3 text-center">
-                                <!-- Sửa -->
-                                <button
-                                    onclick="openModal('edit', <?php echo $row['catagory_id']; ?>, '<?php echo $row['name']; ?>', '<?php echo $row['description']; ?>')"
-                                    class="bg-yellow-500 text-white p-2 rounded-md">Sửa</button>
-                                <!-- Xóa -->
-                                <button onclick="openDeleteModal(<?php echo $row['catagory_id']; ?>)"
-                                    class="bg-red-500 text-white p-2 rounded-md">Xóa</button>
-                            </td>
-                        </tr>
+                            <tr class="border-b">
+                                <td class="p-3 text-center"><?php echo $row['catagory_id']; ?></td>
+                                <td class="p-3"><?php echo $row['name']; ?></td>
+                                <td class="p-3"><?php echo $row['description']; ?></td>
+                                <td class="p-3 text-center">
+                                    <!-- Sửa -->
+                                    <button
+                                        onclick="openModal('edit', <?php echo $row['catagory_id']; ?>, '<?php echo $row['name']; ?>', '<?php echo $row['description']; ?>')"
+                                        class="bg-yellow-500 text-white p-2 rounded-md">Sửa</button>
+                                    <!-- Xóa -->
+                                    <button onclick="openDeleteModal(<?php echo $row['catagory_id']; ?>)"
+                                        class="bg-red-500 text-white p-2 rounded-md">Xóa</button>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -97,7 +97,7 @@ if (isset($_POST['delete_category'])) {
             <div id="modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
                 <div class="bg-white p-6 rounded-lg w-96">
                     <h2 id="modal-title" class="text-2xl font-semibold mb-4">Thêm Danh Mục</h2>
-                    <form id="modal-form" method="POST" action="danhmuc.php">
+                    <form id="modal-form" method="POST" action="./index.php?page=danhmuc">
                         <input type="hidden" id="category_id" name="category_id">
 
                         <label for="name" class="block text-lg">Tên danh mục:</label>
@@ -125,7 +125,7 @@ if (isset($_POST['delete_category'])) {
                 <div class="bg-white p-6 rounded-lg w-96">
                     <h2 class="text-2xl font-semibold mb-4">Xác nhận xóa</h2>
                     <p class="mb-4">Bạn có chắc chắn muốn xóa danh mục này?</p>
-                    <form class="flex justify-evenly mt-4" id="confirm-form" method="POST" action="danhmuc.php">
+                    <form class="flex justify-evenly mt-4" id="confirm-form" method="POST" action="./index.php?page=danhmuc">
                         <input type="hidden" id="delete-category-id" name="category_id">
                         <button type="submit" name="delete_category"
                             class="bg-red-500 text-white p-3 rounded-md">Xóa</button>
@@ -141,43 +141,43 @@ if (isset($_POST['delete_category'])) {
 
     <!-- JavaScript -->
     <script>
-    function openModal(action, id = null, name = '', description = '') {
-        const modal = document.getElementById('modal');
-        const title = document.getElementById('modal-title');
-        const submitButton = document.getElementById('modal-submit');
-        const categoryIdInput = document.getElementById('category_id');
-        const nameInput = document.getElementById('name');
-        const descriptionInput = document.getElementById('description');
+        function openModal(action, id = null, name = '', description = '') {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modal-title');
+            const submitButton = document.getElementById('modal-submit');
+            const categoryIdInput = document.getElementById('category_id');
+            const nameInput = document.getElementById('name');
+            const descriptionInput = document.getElementById('description');
 
-        modal.classList.remove('hidden');
+            modal.classList.remove('hidden');
 
-        if (action === 'add') {
-            title.textContent = 'Thêm Danh Mục';
-            submitButton.textContent = 'Thêm';
-            submitButton.name = 'add_category';
-            nameInput.value = '';
-            descriptionInput.value = '';
-        } else if (action === 'edit') {
-            title.textContent = 'Sửa Danh Mục';
-            submitButton.textContent = 'Cập Nhật';
-            submitButton.name = 'edit_category';
-            categoryIdInput.value = id;
-            nameInput.value = name;
-            descriptionInput.value = description;
+            if (action === 'add') {
+                title.textContent = 'Thêm Danh Mục';
+                submitButton.textContent = 'Thêm';
+                submitButton.name = 'add_category';
+                nameInput.value = '';
+                descriptionInput.value = '';
+            } else if (action === 'edit') {
+                title.textContent = 'Sửa Danh Mục';
+                submitButton.textContent = 'Cập Nhật';
+                submitButton.name = 'edit_category';
+                categoryIdInput.value = id;
+                nameInput.value = name;
+                descriptionInput.value = description;
+            }
         }
-    }
 
-    function openDeleteModal(id) {
-        const confirmModal = document.getElementById('confirm-modal');
-        const deleteCategoryIdInput = document.getElementById('delete-category-id');
+        function openDeleteModal(id) {
+            const confirmModal = document.getElementById('confirm-modal');
+            const deleteCategoryIdInput = document.getElementById('delete-category-id');
 
-        confirmModal.classList.remove('hidden');
-        deleteCategoryIdInput.value = id;
-    }
+            confirmModal.classList.remove('hidden');
+            deleteCategoryIdInput.value = id;
+        }
 
-    function closeModal(modalId = 'modal') {
-        document.getElementById(modalId).classList.add('hidden');
-    }
+        function closeModal(modalId = 'modal') {
+            document.getElementById(modalId).classList.add('hidden');
+        }
     </script>
 </body>
 

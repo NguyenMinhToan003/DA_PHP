@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
     $sql = "INSERT INTO colors (color_name, color_code) VALUES (?, ?)";
     $arrParam = [$color_name, $color_code];
     if ($db->insertSQL($sql, $arrParam)) {
-        echo "<script>alert('Thêm màu thành công!'); window.location.href='qlmau.php';</script>";
+        echo "<script>alert('Thêm màu thành công!'); window.location.href='./index.php?page=qlmau';</script>";
     } else {
         echo "<script>alert('Lỗi khi thêm màu!');</script>";
     }
@@ -31,22 +31,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit'])) {
     $sql = "UPDATE colors SET color_name = ?, color_code = ? WHERE color_id = ?";
     $arrParam = [$color_name, $color_code, $color_id];
     if ($db->updateSQL($sql, $arrParam)) {
-        echo "<script>alert('Sửa màu thành công!'); window.location.href='qlmau.php';</script>";
+        echo "<script>alert('Sửa màu thành công!'); window.location.href='./index.php?page=qlmau';</script>";
     } else {
         echo "<script>alert('Lỗi khi sửa màu!');</script>";
     }
 }
 
 // Xóa màu
-if (isset($_GET['delete'])) {
-    $color_id = $_GET['delete'];
+if (isset($_POST['delete'])) {
+    $color_id = $_POST['color_id'];
 
     $sql = "DELETE FROM colors WHERE color_id = ?";
     $arrParam = [$color_id];
     if ($db->deleteSQL($sql, $arrParam)) {
-        echo "<script>alert('Xóa màu thành công!'); window.location.href='qlmau.php';</script>";
+        echo "<script>alert('Xóa mau thành công!'); window.location.href='./index.php?page=qlmau';</script>";
     } else {
-        echo "<script>alert('Lỗi khi xóa màu!');</script>";
+        echo "<script>alert('Lỗi khi xóa kích cỡ!');</script>";
     }
 }
 ?>
@@ -85,26 +85,27 @@ if (isset($_GET['delete'])) {
                     </thead>
                     <tbody>
                         <?php foreach ($result as $row) { ?>
-                        <tr class="border-b">
-                            <td class="py-2 px-4"><?php echo $row['color_id']; ?></td>
-                            <td class="py-2 px-4"><?php echo $row['color_name']; ?></td>
-                            <td class="py-2 px-4"><?php echo $row['color_code']; ?></td>
-                            <td class="py-2 px-4">
-                                <div class="w-8 h-8 rounded-full border-4 bg-<?php echo $row['color_code']; ?>">
-                                    <?php
-                            echo "";
-                            ?>
-                                </div>
-                            </td>
-                            </td>
-                            <td class="py-2 px-4">
-                                <button
-                                    onclick="openEditModal(<?php echo $row['color_id']; ?>, '<?php echo $row['color_name']; ?>', '<?php echo $row['color_code']; ?>')"
-                                    class="bg-yellow-500 text-white p-2 rounded-md">Sửa</button>
-                                <button onclick="confirmDelete(<?php echo $row['color_id']; ?>)"
-                                    class="bg-red-500 text-white p-2 rounded-md">Xóa</button>
-                            </td>
-                        </tr>
+                            <tr class="border-b">
+                                <td class="py-2 px-4"><?php echo $row['color_id']; ?></td>
+                                <td class="py-2 px-4"><?php echo $row['color_name']; ?></td>
+                                <td class="py-2 px-4"><?php echo $row['color_code']; ?></td>
+                                <td class="py-2 px-4">
+                                    <div class="w-8 h-8 rounded-full border-4 bg-<?php echo $row['color_code']; ?>">
+                                        <?php
+                                        echo "";
+                                        ?>
+                                    </div>
+                                </td>
+                                </td>
+                                <td class="py-2 px-4">
+                                    <button
+                                        onclick="openEditModal(<?php echo $row['color_id']; ?>, '<?php echo $row['color_name']; ?>', '<?php echo $row['color_code']; ?>')"
+                                        class="bg-yellow-500 text-white p-2 rounded-md">Sửa</button>
+                                    <button onclick="openDeleteModal(<?php echo $row['color_id']; ?>)"
+                                        class="bg-red-500 text-white p-2 rounded-md">Xóa</button>
+
+                                </td>
+                            </tr>
                         <?php } ?>
                     </tbody>
                 </table>
@@ -136,17 +137,23 @@ if (isset($_GET['delete'])) {
                 </div>
 
                 <!-- Modal Xác Nhận Xóa -->
-                <div id="deleteModal"
+                <div id="confirm-modal"
                     class="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 hidden">
                     <div class="bg-white p-6 rounded-lg w-96">
                         <h2 class="text-xl font-semibold mb-4">Xác Nhận Xóa</h2>
                         <p>Bạn có chắc muốn xóa màu này không?</p>
-                        <div class="flex justify-evenly mt-4">
-                            <button id="confirmDeleteBtn"
-                                class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700">Xóa</button>
-                            <button onclick="closeDeleteModal()"
-                                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">Hủy</button>
-                        </div>
+                        <form class="flex justify-evenly mt-4" id="confirm-form" method="POST"
+                            action="./index.php?page=qlmau">
+                            <input type="hidden" id="delete" name="color_id">
+                            <button type="submit" name="delete"
+                                class="bg-red-500 text-white p-3 rounded-md">Xóa</button>
+                            <button type="button" onclick="closeDeleteModal('confirm-modal')"
+                                class="bg-gray-500 text-white p-3 rounded-md ml-4">
+                                Hủy
+                            </button>
+
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -154,46 +161,48 @@ if (isset($_GET['delete'])) {
     </div>
 
     <script>
-    // Open Add Modal
-    function openAddModal() {
-        document.getElementById('modal').classList.remove('hidden');
-        document.getElementById('modalTitle').innerText = 'Thêm Màu';
-        document.getElementById('submitBtn').name = 'add';
-        document.getElementById('colorForm').reset();
-    }
+        // Open Add Modal
+        function openAddModal() {
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modalTitle').innerText = 'Thêm Màu';
+            document.getElementById('submitBtn').name = 'add';
+            document.getElementById('colorForm').reset();
+        }
 
-    // Open Edit Modal with existing data
-    function openEditModal(id, name, code) {
-        document.getElementById('modal').classList.remove('hidden');
-        document.getElementById('modalTitle').innerText = 'Sửa Màu';
-        document.getElementById('submitBtn').name = 'edit';
-        document.getElementById('color_id').value = id;
-        document.getElementById('color_name').value = name;
-        document.getElementById('color_code').value = code;
-    }
+        // Open Edit Modal with existing data
+        function openEditModal(id, name, code) {
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modalTitle').innerText = 'Sửa Màu';
+            document.getElementById('submitBtn').name = 'edit';
+            document.getElementById('color_id').value = id;
+            document.getElementById('color_name').value = name;
+            document.getElementById('color_code').value = code;
+        }
 
-    // Close Modal
-    function closeModal() {
-        document.getElementById('modal').classList.add('hidden');
-    }
+        // Close Modal
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
 
-    // Open Delete Confirmation Modal
-    function confirmDelete(color_id) {
-        document.getElementById('deleteModal').classList.remove('hidden');
-        document.getElementById('confirmDeleteBtn').onclick = function() {
-            deleteColor(color_id);
-        };
-    }
+        // Open Delete Confirmation Modal
+        function openDeleteModal(id) {
+            const confirmModal = document.getElementById('confirm-modal');
+            const deleteCategoryIdInput = document.getElementById('delete');
 
-    // Close Delete Confirmation Modal
-    function closeDeleteModal() {
-        document.getElementById('deleteModal').classList.add('hidden');
-    }
+            confirmModal.classList.remove('hidden');
+            deleteCategoryIdInput.value = id;
+        }
 
-    // Delete Color
-    function deleteColor(color_id) {
-        window.location.href = '?delete=' + color_id;
-    }
+        // Close Delete Confirmation Modal
+        function closeDeleteModal() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+        }
+
+
+        // Delete Color
+        function deleteColor(color_id) {
+            window.location.href = '?delete=' + color_id;
+        }
     </script>
 </body>
 

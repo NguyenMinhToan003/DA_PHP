@@ -4,19 +4,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - Page Not Found</title>
+  <title>404 - Không tìm thấy trang</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    }
+  </style>
 </head>
 
-<body class="bg-gray-100">
+<body class="flex items-center justify-center min-h-screen">
 
-  <div class="flex justify-center items-center h-screen">
-    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-      <h1 class="text-4xl font-bold text-red-500">404</h1>
-      <p class="mt-4 text-xl">Trang này không có đâu :))</p>
-      <p class="mt-2 text-gray-500">Sorry, the page you are looking for does not exist.</p>
-      <a href="index.php" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">Về nhà nè</a>
+  <div class="text-center">
+    <div class="mb-6">
+      <h1 class="text-7xl font-extrabold text-gray-800">404</h1>
+      <p class="text-2xl font-semibold text-gray-600 mt-4">Rất tiếc, chúng tôi không thể tìm thấy trang bạn cần.</p>
+      <p class="text-lg text-gray-500 mt-2">Có thể trang này đã được di chuyển hoặc không còn tồn tại.</p>
     </div>
+
+    <div>
+      <a href="index.php" class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Trở về Trang chủ</a>
+      <a href="contact.php" class="ml-4 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg shadow-md hover:bg-gray-200 transition duration-300">Liên hệ với chúng tôi</a>
+    </div>
+
+
   </div>
 
 </body>

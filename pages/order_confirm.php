@@ -2,9 +2,14 @@
 
 // Gọi lớp xử lý đơn hàng
 $orderObj = new Order();
+if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
+    header('Location: index.php?page=dangnhap');
+    exit;
+}
 
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-    die("Lỗi: Không tìm thấy thông tin người dùng trong session.");
+    header('Location: index.php');
+    exit;
 }
 
 $user_id = $_SESSION['user_id'];
@@ -72,7 +77,6 @@ if (isset($_POST['confirm-order'])) {
         // Chuyển hướng đến trang thanh toán thành công
         header('Location: index.php?page=dathang-thanhcong');
         exit;
-
     } catch (Exception $e) {
         // Xử lý lỗi nếu có
         echo "<script>alert('Đã xảy ra lỗiiii: " . $e->getMessage() . "');</script>";
@@ -98,12 +102,12 @@ if (isset($_POST['confirm-order'])) {
                 <h2 class="text-3xl font-bold text-blue-700 mb-6">Thông Tin Thanh Toán</h2>
                 <div class="mb-4">
                     <label for="username" class="block font-medium mb-1 text-gray-700">Họ và Tên*</label>
-                    <input type="text" id="username" name="name" required value="<?php echo $user['username']?>"
+                    <input type="text" id="username" name="name" required value="<?php echo $user['username'] ?>"
                         class="w-full border rounded px-4 py-2 focus:ring focus:ring-blue-300">
                 </div>
                 <div class="mb-4">
                     <label for="street_address" class="block font-medium mb-1 text-gray-700">Địa Chỉ*</label>
-                    <input type="text" id="street_address" name="address" required value="<?php echo $user['address']?>"
+                    <input type="text" id="street_address" name="address" required value="<?php echo $user['address'] ?>"
                         class="w-full border rounded px-4 py-2 focus:ring focus:ring-blue-300">
                 </div>
 
@@ -114,7 +118,7 @@ if (isset($_POST['confirm-order'])) {
                 </div>
                 <div class="mb-4">
                     <label for="email_address" class="block font-medium mb-1 text-gray-700">Địa Chỉ Email*</label>
-                    <input type="email" id="email_address" name="email" required value="<?php echo $user['email']?>"
+                    <input type="email" id="email_address" name="email" required value="<?php echo $user['email'] ?>"
                         class="w-full border rounded px-4 py-2 focus:ring focus:ring-blue-300">
                 </div>
                 <div class="mb-4">
@@ -132,14 +136,14 @@ if (isset($_POST['confirm-order'])) {
                         $item_total = $product['price'] * $product['quatity'];
                         $tong_tam += $item_total;
                     ?>
-                    <div class="flex justify-between items-center mb-4">
-                        <div>
-                            <p class="font-medium text-gray-800"><?php echo $product['name']; ?></p>
-                            <p class="text-sm text-gray-600">x<?php echo $product['quatity']; ?> - Size:
-                                <?php echo $product['size_name']; ?> - Màu: <?php echo $product['color_name']; ?></p>
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <p class="font-medium text-gray-800"><?php echo $product['name']; ?></p>
+                                <p class="text-sm text-gray-600">x<?php echo $product['quatity']; ?> - Size:
+                                    <?php echo $product['size_name']; ?> - Màu: <?php echo $product['color_name']; ?></p>
+                            </div>
+                            <span class="text-gray-700"><?php echo number_format($item_total); ?> đ</span>
                         </div>
-                        <span class="text-gray-700"><?php echo number_format($item_total); ?> đ</span>
-                    </div>
                     <?php endforeach; ?>
                     <div class="flex justify-between items-center font-medium text-gray-800 border-t pt-2">
                         <span>Tạm Tính</span>

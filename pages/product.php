@@ -4,11 +4,13 @@ $sizeId = $_GET['size_id'] ?? 0; //6
 $colorId = $_GET['color_id'] ?? 0; //5
 
 $productObj = new Product();
-
+// lay san pham theo id neu truyen du size va color
 $product = $productObj->getProductUser($productId, $sizeId, $colorId);
+// neu size = 0 thi lay size dau tien cua san pham
 if ($sizeId == 0) {
   $sizeId = $product['sizes'][0]['size_id'] ?? 0;
   $product = $productObj->getProductUser($productId, $sizeId, $colorId);
+  // neu color = 0 thi lay color dau tien cua san pham
   if ($colorId == 0) {
     $colorId = $product['colors'][0]['color_id'] ?? 0;
     $product = $productObj->getProductUser($productId, $sizeId, $colorId);
@@ -16,10 +18,12 @@ if ($sizeId == 0) {
     $product = $productObj->getProductUser($productId, $sizeId, $colorId);
   }
 } else {
+  // neu color = 0 thi lay color dau tien cua san pham
   if ($colorId == 0) {
     $colorId = $product['colors'][0]['color_id'] ?? 0;
     $product = $productObj->getProductUser($productId, $sizeId, $colorId);
   } else {
+    // neu co ca size va color thi lay san pham theo size va color
     $product = $productObj->getProductUser($productId, $sizeId, $colorId);
   }
 }
