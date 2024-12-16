@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 13, 2024 at 01:18 AM
--- Server version: 8.2.0
--- PHP Version: 8.2.13
+-- Generation Time: Dec 14, 2024 at 02:52 PM
+-- Server version: 8.3.0
+-- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,20 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `if0_37906965_e1`
+-- Database: `e1`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `brands`
---
-
-
---
--- Dumping data for table `brands`
---
-
 
 -- --------------------------------------------------------
 
@@ -47,18 +35,21 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`catagory_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`catagory_id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(22, 'Tai nghe', 'Tai Nghe', '2024-12-03 13:21:32', '2024-12-03 13:21:32'),
-(23, 'Bàn phím', 'Bàn phím', '2024-12-03 13:21:36', '2024-12-03 13:23:14'),
-(24, 'Sạc', 'Sạc', '2024-12-03 13:21:54', '2024-12-03 13:21:54'),
-(25, 'Điện thoại', 'Điện Thoại', '2024-12-03 13:22:39', '2024-12-03 13:22:39'),
-(35, 'Chuột không dây', 'Chuột không dây', '2024-12-09 17:20:48', '2024-12-09 17:20:48');
+(37, 'Sạc dự phòng', '', '2024-12-14 05:20:58', '2024-12-14 05:20:58'),
+(38, 'Bàn phím', '', '2024-12-14 05:21:08', '2024-12-14 05:21:15'),
+(39, 'Chuột', '', '2024-12-14 05:21:25', '2024-12-14 05:21:25'),
+(40, 'Lót chuột', '', '2024-12-14 05:21:35', '2024-12-14 05:21:35'),
+(41, 'Màn hình', '', '2024-12-14 05:22:03', '2024-12-14 05:22:03'),
+(42, 'Tai nghe', '', '2024-12-14 05:22:30', '2024-12-14 05:22:30'),
+(43, 'Giá đỡ', '', '2024-12-14 05:22:41', '2024-12-14 05:22:41'),
+(44, 'Tay Cầm', '', '2024-12-14 05:30:18', '2024-12-14 05:30:18');
 
 -- --------------------------------------------------------
 
@@ -72,19 +63,20 @@ CREATE TABLE IF NOT EXISTS `colors` (
   `color_name` varchar(10) NOT NULL,
   `color_code` varchar(10) NOT NULL,
   PRIMARY KEY (`color_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `colors`
 --
 
 INSERT INTO `colors` (`color_id`, `color_name`, `color_code`) VALUES
-(1, 'red', 'red-500'),
-(2, 'orange', 'orange-500'),
-(3, 'black', 'black'),
-(4, 'white', 'white'),
-(5, 'black', 'black'),
-(7, 'Xanh nước ', 'sky-800');
+(11, 'Trắng', 'white'),
+(12, 'black', 'black'),
+(13, 'xanh lá', 'green-500'),
+(14, 'Đỏ', 'red-500'),
+(15, 'Vàng', 'yellow-500'),
+(16, 'Xanh dương', 'blue-500'),
+(17, 'Xám', 'gray-500');
 
 -- --------------------------------------------------------
 
@@ -99,33 +91,22 @@ CREATE TABLE IF NOT EXISTS `images` (
   `product_id` int NOT NULL,
   PRIMARY KEY (`image_id`),
   KEY `product_id` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `images`
 --
 
 INSERT INTO `images` (`image_id`, `url_image`, `product_id`) VALUES
-(12, './uploads/022f2f4b1ed0c1235d3968064f236712.png', 53),
-(13, './uploads/6bbbcc8dd4a50876f797e8f2726fa84a.png', 54),
-(14, './uploads/f10120d2c50f9458e775b633c226bfda.png', 55),
-(15, './uploads/029903997e70dac236762f20af665a2e.png', 56),
-(16, './uploads/e5ee240ec7b94d1dcb4bc7d05bf75202.png', 56),
-(17, './uploads/6be6160643db95e62e2b054e26fa33ea.png', 56),
-(18, './uploads/425fc9f43864cce8bd5d9bce609a9545.png', 56),
-(19, './uploads/3bc7b979f3b3a2154049218f2b0d6dbd.png', 56),
-(20, './uploads/c329070bd1213b54e7bcb2179c6ae60a.png', 57),
-(21, './uploads/c6e8d40b73347d2a38aa771cd13e55e6.png', 57),
-(22, './uploads/6837faaffa8faaa554d101301445ba45.png', 57),
-(23, './uploads/e3984669d92eed0f2febdfcf848a258d.png', 57),
-(24, './uploads/34ab5c3eb93c19082a01964faa8d60d6.png', 57),
-(25, './uploads/87a2f5d21b8950e28e535511e0cf22f4.png', 57),
-(26, './uploads/972e3344dd6743286955fb29a8d6db58.png', 58),
-(27, './uploads/9e2b6235cd393dd26c0ed8f884b21541.png', 58),
-(28, './uploads/a58110fa7f0aa4ec2552cf491937d8f9.png', 58),
-(29, './uploads/0e91707931498e9f834d9b052fc038d5.png', 58),
-(30, './uploads/316700979579a9db421f7c4cd8b7fd14.png', 58),
-(31, './uploads/5b1c6321f072b285d6a1f3e9be61f7d4.jpg', 59);
+(42, './uploads/1637ae2a3f43363c6e85ad69ded72ca6.png', 61),
+(43, './uploads/db16a72c445c3b37fb9a67b329bd9623.png', 61),
+(44, './uploads/61bc6ca0b943deb41ee8a513214ef7a4.png', 61),
+(45, './uploads/724c448c2c69ed73d927411c6ea841a8.png', 61),
+(51, './uploads/b5f2d8f5e55a69aa290334f9a8551b8a.png', 60),
+(52, './uploads/e20f4bfa9a24f923d010963d7b2d6bad.png', 60),
+(53, './uploads/336c0ac9c6e27c6d0dd3962630a9c942.png', 60),
+(54, './uploads/90a854388866e1b1495904140d1ae8f0.png', 60),
+(55, './uploads/b519f019b74f333e53863161216e3db7.png', 60);
 
 -- --------------------------------------------------------
 
@@ -146,15 +127,14 @@ CREATE TABLE IF NOT EXISTS `order` (
   `status` int NOT NULL,
   PRIMARY KEY (`order_id`),
   KEY `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order`
 --
 
 INSERT INTO `order` (`order_id`, `user_id`, `email`, `user_name`, `user_address`, `tel`, `note`, `total`, `status`) VALUES
-(2, 8, '3@gmail.com', 'Tom', '456 Avenue', '0987654321', 'Có', 232580, 1),
-(67, 13, 'user@gmail.com', 'user', 'Ha Noi', '1111', '', 232211, 1);
+(72, 12, 'admin@gmail.com', 'admin', 'Ha Noi', '23444', '', 5000, 1);
 
 -- --------------------------------------------------------
 
@@ -173,16 +153,14 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   PRIMARY KEY (`detail_id`),
   KEY `order` (`order_id`),
   KEY `product_detail_id` (`product_detail_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order_detail`
 --
 
 INSERT INTO `order_detail` (`detail_id`, `order_id`, `product_detail_id`, `quantity`, `product_name`, `total_price`) VALUES
-(12, 2, 57, 3, 'Sách obn lkdawdawdawdadaw', 36936),
-(13, 2, 58, 1, 'Sách obn lkdawdawdawdadaw', 232211),
-(53, 67, 58, 1, 'Sách obn lkdawdawdawda', 232211);
+(59, 72, 71, 5, 'Havic HV G-92 Gamepad', 5000);
 
 -- --------------------------------------------------------
 
@@ -192,27 +170,24 @@ INSERT INTO `order_detail` (`detail_id`, `order_id`, `product_detail_id`, `quant
 
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
-    `product_id` int NOT NULL AUTO_INCREMENT,
-    `name` varchar(255) NOT NULL,
-    `description` text,
-    `category_id` int NOT NULL,
-    `price` float NOT NULL,
-    PRIMARY KEY (`product_id`),
-    KEY `category_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `product_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text,
+  `category_id` int NOT NULL,
+  `brand_id` int NOT NULL,
+  `price` float NOT NULL,
+  PRIMARY KEY (`product_id`),
+  KEY `category_id` (`category_id`),
+  KEY `brand_id` (`brand_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `name`, `description`, `category_id`,`price`) VALUES
-(53, 'Sách obn lkdawdawdawda', 'dawdwawadadaw', 22,  0),
-(54, 'Sách obn lkdawdawdawda', 'dawdawdawdawdawdawdawdawdawadawdawdad', 24,0),
-(55, 'Sách obn lkdawdawdawda', 'dwadawdd', 22,0),
-(56, 'Sách obn lkdawdawdawda', 'dwadwadaw', 22,0),
-(57, 'Sách obn lkdawdawdawdadaw', 'dwadawdadawdawadw', 22,0),
-(58, 'Sách obn lkdawdawdawdadaw', 'dwadawdawdawd', 22,0),
-(59, 'Chuột', 'Chuột không dây', 35,0);
+INSERT INTO `products` (`product_id`, `name`, `description`, `category_id`, `brand_id`, `price`) VALUES
+(60, 'Havic HV G-92 Gamepad', 'Dán bảo vệ tay cầm PlayStation 5 được làm từ chất liệu vinyl cao cấp, mang lại độ bền và thẩm mỹ cao. Với công nghệ keo dán kênh dẫn khí, việc lắp đặt trở nên dễ dàng mà không lo xuất hiện bọt khí, đồng thời có thể tháo gỡ mà không để lại bất kỳ vết keo nào. Sản phẩm được thiết kế nhạy cảm với áp lực, giúp bám chắc chắn vào tay cầm, mang lại trải nghiệm sử dụng hoàn hảo.', 44, 1, 0),
+(61, 'Màn hình AFA', 'Màn hình cực ngon trong tầm giá', 39, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -232,23 +207,17 @@ CREATE TABLE IF NOT EXISTS `product_detail` (
   KEY `product_id` (`product_id`),
   KEY `size_id` (`size_id`),
   KEY `color_id` (`color_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_detail`
 --
 
-INSERT INTO `product_detail` (`product_detail_id`, `product_id`, `size_id`, `color_id`,  `price`, `quantity`) VALUES
-(55, 53, 6, 1, 123, 123),
-(56, 54, 5, 2, 123, 123),
-(57, 54, 6, 5, 12312, 1233),
-(58, 55, 5, 5, 232211, 123),
-(59, 56, 6, 1, 232211, 123),
-(60, 56, 6, 3, 3323, 23223),
-(61, 57, 7, 2, 232211, 123),
-(62, 58, 6, 2, 232211, 123),
-(63, 59, 6, 2, 100, 2),
-(64, 59, 6, 3, 120, 3);
+INSERT INTO `product_detail` (`product_detail_id`, `product_id`, `size_id`, `color_id`, `price`, `quantity`) VALUES
+(71, 60, 10, 11, 1000, 10),
+(72, 60, 10, 13, 1200, 10),
+(73, 60, 11, 16, 1200, 100),
+(76, 61, 12, 12, 12, 12);
 
 -- --------------------------------------------------------
 
@@ -261,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `role_id` int NOT NULL AUTO_INCREMENT,
   `role_name` varchar(50) NOT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `role`
@@ -283,16 +252,16 @@ CREATE TABLE IF NOT EXISTS `sizes` (
   `size_name` varchar(10) NOT NULL,
   `size_code` varchar(10) NOT NULL,
   PRIMARY KEY (`size_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sizes`
 --
 
 INSERT INTO `sizes` (`size_id`, `size_name`, `size_code`) VALUES
-(5, 'Nhỏ', 'S'),
-(6, 'Vừa', 'L'),
-(7, 'Lớn', 'XL');
+(10, 'Nhỏ', 'Nhỏ'),
+(11, 'Vừa', 'Vừa'),
+(12, 'Lớn', 'Lớn');
 
 -- --------------------------------------------------------
 
@@ -311,16 +280,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `tel` varchar(11) NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `email`, `username`, `password`, `role_id`, `address`,`tel`) VALUES
-(8, '3@gmail.com', '1234', '123', 2, 'HCM','0987654321'),
-(12, 'admin@gmail.com', 'admin', '123', 1, 'Ha Noi','0987654321'),
-(13, 'user@gmail.com', 'user', '123', 2, 'Ha Noi','1111');
+INSERT INTO `users` (`user_id`, `email`, `username`, `password`, `role_id`, `address`, `tel`) VALUES
+(8, '3@gmail.com', '1234', '123', 2, 'HCM', ''),
+(12, 'admin@gmail.com', 'admin', '123', 1, 'Ha Noi', ''),
+(13, 'user@gmail.com', 'user', '123', 2, 'Ha Noi', '');
 
 --
 -- Constraints for dumped tables
@@ -350,7 +319,6 @@ ALTER TABLE `order_detail`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`catagory_id`);
-
 
 --
 -- Constraints for table `product_detail`
