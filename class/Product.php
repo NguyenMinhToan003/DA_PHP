@@ -217,10 +217,10 @@ class Product extends Db
   function getProductDetailByIdColorIdSizeId($id, $color_id, $size_id)
   {
     $sql = 'SELECT 
-                  p.name,p.price,product_detail.product_detail_id,c.color_name,s.size_name,
-                  p.product_id,c.color_id,s.size_id
+                  p.name,product_detail.product_detail_id,c.color_name,s.size_name,
+                  p.product_id,c.color_id,s.size_id,product_detail.quantity,product_detail.price
             FROM 
-                  product_detail 
+                  product_detail  
             JOIN 
                   products p ON product_detail.product_id  = p.product_id  
             JOIN 
@@ -231,13 +231,13 @@ class Product extends Db
                   product_detail.product_id = ? AND c.color_id = ? AND s.size_id = ?
     ';
     $data = $this->selectSQL($sql, [$id, $color_id, $size_id]);
-    $price = $this->getPriceByColorIdSizeId($id, $color_id, $size_id);
+    // // $price = $this->getPriceByColorIdSizeId($id, $color_id, $size_id);
     // echo '<pre>';
-    // print_r($price);
+    // print_r($data);
     // echo '</pre>';
     // exit;
     $images = $this->getImages($id);
-    $data[0]['price'] = $price;
+    // $data[0]['price'] = $price;
     $data[0]['images'] = $images;
     return $data[0];
   }

@@ -122,7 +122,7 @@ $banner = array(
     arrowLeft.addEventListener('click', () => {
         handlerNextBanner('left');
     })
-    const timeout = setInterval(() => {
-        handlerNextBanner();
-    }, 4000);
+    // const timeout = setInterval(() => {
+    //     handlerNextBanner();
+    // }, 4000);
 </script>

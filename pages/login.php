@@ -11,7 +11,9 @@ if (isset($_POST['login'])) {
       </div>
         ";
   } else {
-    $login = $user->login($email, $password);
+
+    $login = $user->login(trim($email), trim($password));
+
     if ($login) {
       $message = "
         <div class='p-3 bg-green-100 mb-2'>
