@@ -1,8 +1,8 @@
 <?php
-$lstProduct = new Product();
 $carts = $_SESSION['cart'] ?? [];
 $cartsDetail = $carts;
 $tongtien = 0;
+
 
 include './views/nav.php';
 

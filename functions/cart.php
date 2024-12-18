@@ -20,6 +20,7 @@ if (isset($_POST['add_to_cart'])) {
       exit;
     }
   }
+
   $cart[] = [
     'product_detail_id' => $product['product_detail_id'],
     'product_id' => $product_id,

@@ -5,15 +5,35 @@ class User extends Db
   function login($email, $password)
   {
     $sql = 'SELECT * FROM users
-    JOIN role ON users.role_id = role.role_id
-     WHERE email=? AND password=?';
-    $data = $this->selectSQL($sql, [$email, $password]);
-    return $data;
+            JOIN role ON users.role_id = role.role_id
+            WHERE email=?';
+    $data = $this->selectSQL($sql, [$email]);
+
+    if (!$data || empty($data)) {
+      return false; // Không tìm thấy người dùng
+    }
+
+    // Kiểm tra mật khẩu
+    $hashedPassword = hash('sha256', $password); // Mã hóa mật khẩu người dùng nhập vào
+
+
+    // Kiểm tra mật khẩu đã mã hóa với mật khẩu trong cơ sở dữ liệu
+    if ($hashedPassword === $data[0]['password']) {
+      return $data; // Đăng nhập thành công
+    }
+
+    return false; // Mật khẩu không chính xác
   }
+
   function register($username, $password, $email, $address, $tel)
   {
-    $sql = 'INSERT INTO users(username, password, email, address,role_id,teltel) VALUES(?,?,?,?,2,?)';
-    $data = $this->updateSQL($sql, [$username, $password, $email, $address, $tel]);
+    // Mã hóa mật khẩu với SHA-256 khi người dùng đăng ký
+    $hashedPassword = hash('sha256', $password);
+
+    // Thực thi câu lệnh SQL để chèn dữ liệu vào cơ sở dữ liệu
+    $sql = 'INSERT INTO users(username, password, email, address, role_id, tel) VALUES(?,?,?,?,2,?)';
+    $data = $this->updateSQL($sql, [$username, $hashedPassword, $email, $address, $tel]);
+
     return $data;
   }
   function checkUser($username)
